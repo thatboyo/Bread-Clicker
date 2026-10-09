@@ -1,21 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="script.js"></script>
+    <style>
+        body{
+            background-color: #5a4630;
+            background-size: 64px;
+            font-family: monospace;
+            color: white;
+            text-shadow: 2px 2px 4px black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #title{
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        #bread{
+            border: 0;
+            background: none;
+            padding: 0;
+            cursor: pointer;
+        }
+        #bread img{
+            display: block;
+        }
+    </style>
+    <script src="script.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bread Clicker</title>
 </head>
 <body>
     <h1>Bread Clicker</h1>
-    <img src="download.jpeg", id="bread">
+    <button id="bread" type="button" aria-label="Bake bread">
+        <img src="download.jpeg" alt="Bread">
+    </button>
     <button id="1">Hire a Chungie</button>
     <button id="2">Buy a Toaster</button>
     <button id="3">Buy a Bakery</button>
     <button id="4">Buy a Robot</button>
     <button id="5">Invest in a Crafting Table</button>
-
+    <p id="amount">Bread Baked: </p>
 </body>
 </html>
-<!--- so basically most of my first hour went to brainstorming an idea
-       and setting up a basic layout-->
+<!--- second hour some ui changes and functionality fixes.-->

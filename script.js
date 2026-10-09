@@ -8,7 +8,7 @@ let chungiePrice = 100;
 let robots = 0
 let robotPrice = 100000;
 let craftingTablePrice = 2000;
-let craftingTable = 0;
+let craftingTables = 0;
 let commandBlockPrice = 35000;
 let commandBlocks = 0;
 let villagers = 0
@@ -49,8 +49,32 @@ function chungieBuy(){
 function toasterBuy(){
   if (bread >= toasterPrice){
     bread = bread - toasterPrice;
-    chungies ++;
+    toasters ++;
     toasterPrice = toasterPrice * 1.15;
+    update();
+  }
+}
+function bakeryBuy(){
+  if (bread >= bakeryPrice){
+    bread = bread - bakeryPrice;
+    bakeries++;
+    bakeryPrice = bakeryPrice * 1.15;
+    update();
+  }
+}
+function robotBuy(){
+  if (bread >= robotPrice){
+    bread = bread - robotPrice;
+    robots++;
+    robotPrice = robotPrice * 1.15;
+    update();
+  }
+}
+function craftingTableBuy(){
+  if (bread >= craftingTablePrice){
+    bread = bread - craftingTablePrice;
+    craftingTables++;
+    craftingTablePrice = craftingTablePrice * 1.15;
     update();
   }
 }

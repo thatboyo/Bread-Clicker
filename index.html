@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        body{
-            background-color: #5a4630;
-            background-size: 64px;
-            font-family: monospace;
-            color: white;
-            text-shadow: 2px 2px 4px black;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        #title{
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-        #bread{
-            border: 0;
-            background: none;
-            padding: 0;
-            cursor: pointer;
-        }
-        #bread img{
-            display: block;
-        }
-    </style>
-    <script src="script.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
     <title>Bread Clicker</title>
 </head>
 <body>
     <h1>Bread Clicker</h1>
-    <button id="bread" type="button" aria-label="Bake bread">
-        <img src="download.jpeg" alt="Bread">
-    </button>
-    <button id="1">Hire a Chungie</button>
-    <button id="2">Buy a Toaster</button>
-    <button id="3">Buy a Bakery</button>
-    <button id="4">Buy a Robot</button>
-    <button id="5">Invest in a Crafting Table</button>
-    <p id="amount">Bread Baked: </p>
+    <div id="menu">
+        <button id="menuBtn" type="button">Menu</button>
+        <div id="menuPanel" hidden>
+            <button id="saveBtn" type ="button">Save</button>
+            <button id="loadBtn" type="button">Load</button>
+
+            <div id="saveArea" hidden>
+                <p>Your save code:</p>
+                <textarea id="saveCode" readonly rows="4"></textarea>
+                <button id="copyBtn" type="button">Copy</button>
+            </div>
+
+            <div id="loadArea" hidden>
+                <p>Paste your save code:</p>
+                <textarea id="loadCode" rows="4"></textarea>
+                <button id="loadGo" type="button">Load Game</button>
+                <p id="loadMsg"></p>
+            </div>            
+        </div>
+    </div>
+    <div id="game">
+        <div id="left">
+            <button id="bread" type="button" aria-label="Bake bread">
+            <img src="download.jpeg" alt="Bread"></button>
+            <p id="amount">Bread Baked: </p>
+            <p id="BPS">Bread per Second: </p>
+        </div>
+        <div id="divider"></div>
+        <div id="right">
+            <button id="1">Hire a Chungie</button>
+            <button id="2">Buy a Toaster</button>
+            <button id="3">Buy a Bakery</button>
+            <button id="4">Buy a Robot</button>
+            <button id="5">Invest in a Crafting Table</button>
+            
+        </div>
+    </div>
+   
+    
 </body>
 </html>
 <!--- second hour some ui changes and functionality fixes.-->

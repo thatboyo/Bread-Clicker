@@ -12,9 +12,13 @@ let craftingTables = 0;
 let commandBlockPrice = 35000;
 let commandBlocks = 0;
 let villagers = 0
-let villagersPrice = 100;
-let MagicalBreadCreatingMachine = 0
-let MagicalBreadCreatingMachinePrice = 100000;
+let villagersPrice = 5600000;
+let magicalBreadMachine = 0
+let magicalBreadMachinePrice = 1000000;
+let amazonPrice = 2820000000000;
+let amazons = 0;
+let snakeGamePrice = 60000000;
+let casinoPrice = 900000;
 var breadSprite;
 var clickedAmount
 var ChungiePriceText = document.getElementById("1");
@@ -22,6 +26,10 @@ var ToasterPriceText = document.getElementById("2");
 var BakeryPriceText  = document.getElementById("3");
 var RobotPriceText = document.getElementById("4");
 var CraftingTablePriceText = document.getElementById("5");
+var ToasterPriceText = document.getElementById("7");
+var PriceText  = document.getElementById("8");
+var MagicBreadPriceText = document.getElementById("9");
+var AmazonPriceText = document.getElementById("11");
 let CPS = 0;
 var bps = document.getElementById("BPS");
 
@@ -37,6 +45,19 @@ robotBTN = document.getElementById("4");
 robotBTN.onclick = robotBuy;
 craftingTableBTN = document.getElementById("5");
 craftingTableBTN.onclick = craftingTableBuy;
+//cBTN = document.getElementById("6"); 
+//chungieBTN.onclick = chungieBuy;
+villagerBTN = document.getElementById("7"); 
+villagerBTN.onclick = villagerBuy;
+commandBlockBTN = document.getElementById("8"); 
+commandBlockBTN.onclick = commandBlockBuy;
+
+magicalBreadMachineBTN = document.getElementById("9");
+magicalBreadMachineBTN.onclick = magicalBreadMachineBuy;
+amazonBTN = document.getElementById("11");
+amazonBTN.onclick = amazonBuy;
+testingBTN = document.getElementById("12");
+testingBTN.onclick = testingBtn;
 const BasePrices = {
   chungie: 100,
   toaster: 2000,
@@ -68,7 +89,7 @@ function loadSaveCode(code){
     }
     bread = s.bread;
     chungies = s.chungies;
-    toasters = s.toasters;
+    toasters = s.toasters;   
     bakeries = s.bakeries;
     robots = s.robots;
     craftingTables = s.craftingTables;
@@ -157,6 +178,12 @@ function update(){
    BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ "  Owned: " + bakeries;
    RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + "  Owned: " + robots;
    CraftingTablePriceText.textContent = "Invest in a Crafting Table: $" + Math.round(craftingTablePrice)+ "  Owned: " + craftingTables;
+
+    VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagerPrice) + "  Owned: " + villagers;
+    CommandBlockPriceText.textContent = "Buy a Toaster: $" + Math.round(toasterPrice)+ "  Owned: " + toasters;
+   BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ "  Owned: " + bakeries;
+   RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + "  Owned: " + robots;
+   CraftingTablePriceText.textContent = "Invest in a Crafting Table: $" + Math.round(craftingTablePrice)+ "  Owned: " + craftingTables;
    bps.textContent = "Bread per Second: " + CPS;
    Afforability();
 }
@@ -206,6 +233,45 @@ function craftingTableBuy(){
     update();
   }
 }
+function VillagerBuy(){
+  if (bread >= villagersPrice){
+    bread = bread - villagersPrice;
+    villagers++;
+    villagersPrice = villagersPrice * 1.15;
+    //CPS +=  villagers* 150;
+    update();
+  }
+}
+function commandBlockBuy(){
+  if (bread >= commandBlockPrice){
+    bread = bread - commandBlockPrice;
+    commandBlocks++;
+    commandBlockPrice = commandBlockPrice * 1.15;
+    //CPS +=  commandBlocks* 150;
+    update();
+  }
+}
+function magicalBreadMachineBuy(){
+  if (bread >= magicalBreadMachinePrice){
+    bread = bread - magicalBreadMachinePrice;
+    magicalBreadMachine++;
+    magicalBreadMachinePrice = magicalBreadMachinePrice * 1.15;
+    //CPS +=  magicalBreadMachine* 150;
+    update();
+  }
+}
+function amazonBuy(){
+  if (bread >= amazonPrice){
+    bread = bread - amazonPrice;
+    amazons++;
+    amazonPrice = amazonPrice * 1.15;
+    //CPS +=  amazons* 150;
+    update();
+  }
+}
+function testingBtn(){
+  
+}
 //some fixes and functionality changes
 
 function Afforability(){
@@ -215,6 +281,12 @@ function Afforability(){
     "3": bakeryPrice,
     "4": robotPrice,
     "5": craftingTablePrice,
+    "6": casinoPrice,
+    "7": villagersPrice,
+    "8": commandBlockPrice,
+    "9": magicalBreadMachinePrice,
+    "10":snakeGamePrice,
+    "11":amazonPrice
   };
   for (const id in prices){
     document.getElementById(id).disabled = bread < prices[id];

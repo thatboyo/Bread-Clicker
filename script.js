@@ -1,36 +1,36 @@
-let bread = 0;
-let toasterPrice = 2000;
-let toasters = 0;
-let bakeryPrice = 35000;
-let bakeries = 0;
-let chungies = 0
-let chungiePrice = 100;
-let robots = 0
-let robotPrice = 100000;
-let craftingTablePrice = 200000;
-let craftingTables = 0;
-let commandBlockPrice = 35000;
-let commandBlocks = 0;
-let villagers = 0
-let villagersPrice = 5600000;
-let magicalBreadMachine = 0
-let magicalBreadMachinePrice = 1000000;
-let amazonPrice = 2820000000000;
-let amazons = 0;
-let snakeGamePrice = 60000000;
-let casinoPrice = 900000;
+var bread = 0;
+var toasterPrice = 2000;
+var toasters = 0;
+var bakeryPrice = 35000;
+var bakeries = 0;
+var chungies = 0
+var chungiePrice = 100;
+var robots = 0
+var robotPrice = 100000;
+var craftingTablePrice = 200000;
+var craftingTables = 0;
+var commandBlockPrice = 35000000;
+var commandBlocks = 0;
+var villagers = 0
+var villagersPrice = 5600000;
+var magicalBreadMachine = 0
+var magicalBreadMachinePrice = 190000000;
+var amazonPrice = 2820000000000;
+var amazons = 0;
+var snakeGamePrice = 60000000;
+var casinoPrice = 900000;
 var breadSprite;
-var clickedAmount
+var clickedAmount;
 var ChungiePriceText = document.getElementById("1");
 var ToasterPriceText = document.getElementById("2");
 var BakeryPriceText  = document.getElementById("3");
 var RobotPriceText = document.getElementById("4");
 var CraftingTablePriceText = document.getElementById("5");
-var ToasterPriceText = document.getElementById("7");
-var PriceText  = document.getElementById("8");
+var VillagerPriceText = document.getElementById("7");
+var CommandBlockPriceText  = document.getElementById("8");
 var MagicBreadPriceText = document.getElementById("9");
 var AmazonPriceText = document.getElementById("11");
-let CPS = 0;
+var CPS = 0;
 var bps = document.getElementById("BPS");
 
 breadSprite = document.getElementById("bread"); 
@@ -48,7 +48,7 @@ craftingTableBTN.onclick = craftingTableBuy;
 //cBTN = document.getElementById("6"); 
 //chungieBTN.onclick = chungieBuy;
 villagerBTN = document.getElementById("7"); 
-villagerBTN.onclick = villagerBuy;
+villagerBTN.onclick = VillagerBuy;
 commandBlockBTN = document.getElementById("8"); 
 commandBlockBTN.onclick = commandBlockBuy;
 
@@ -107,7 +107,11 @@ function recalcCPS(){
        + toasters * 10
        + bakeries * 20
        + robots * 60
-       + craftingTables * 150
+       + craftingTables * 250
+       + villagers * 1000
+       + commandBlocks * 6400
+       + magicalBreadMachine * 9500
+       + amazons * 99999
 }
 
 const menuBtn = document.getElementById("menuBtn");
@@ -152,7 +156,9 @@ document.getElementById("loadGo").onclick = function(){
     loadMsg.textContent = "Invalid Code:("
   }
 };
-
+document.getElementById("infoBtn").onclick = function() {
+  window.location.href = "info.html";
+}
 
 
 function clicked() {
@@ -164,13 +170,17 @@ setInterval(function() {
   bread += chungies * 0.1;
   bread += bakeries * 2.0;
   bread += robots * 6.0;
-  bread += craftingTables * 15.0;
+  bread += craftingTables * 25.0;
+  bread += villagers * 100.0;
+  bread += commandBlocks * 640.0;
+  bread += magicalBreadMachine * 1200.0;
+  bread += amazons * 9999.0;
   update();
 }, 100);
 
 function update(){
-    recalcCPS();
-    recalcPrices();
+   recalcCPS();
+   recalcPrices();
    clickedAmount = document.getElementById("amount")
    clickedAmount.textContent = "Bread Baked: " + Math.round(bread);
    ChungiePriceText.textContent = "Hire a Chungie: $" + Math.round(chungiePrice) + "  Owned: " + chungies;
@@ -179,11 +189,10 @@ function update(){
    RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + "  Owned: " + robots;
    CraftingTablePriceText.textContent = "Invest in a Crafting Table: $" + Math.round(craftingTablePrice)+ "  Owned: " + craftingTables;
 
-    VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagerPrice) + "  Owned: " + villagers;
-    CommandBlockPriceText.textContent = "Buy a Toaster: $" + Math.round(toasterPrice)+ "  Owned: " + toasters;
-   BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ "  Owned: " + bakeries;
-   RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + "  Owned: " + robots;
-   CraftingTablePriceText.textContent = "Invest in a Crafting Table: $" + Math.round(craftingTablePrice)+ "  Owned: " + craftingTables;
+   VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + "  Owned: " + villagers;
+   CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ "  Owned: " + commandBlocks;
+   MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice)+ "  Owned: " + magicalBreadMachine;
+   AmazonPriceText.textContent = "Buy the Amazon Company: $" + Math.round(amazonPrice)+ "(Your Goal)";
    bps.textContent = "Bread per Second: " + CPS;
    Afforability();
 }
@@ -269,9 +278,25 @@ function amazonBuy(){
     update();
   }
 }
+
 function testingBtn(){
-  
-}
+  //testing btn so I can test all the items easier
+
+  var debug = prompt("what variable do you wanna test?");
+  if (window.hasOwnProperty(debug)){
+    var newValue = prompt("What would like to change the value of " + debug + " to?")
+    var numValue = Number(newValue);
+    if (!isNaN(numValue)){
+      window[debug] = numValue;
+      alert(debug + " changed to " + numValue);
+      update();
+    } else {
+      alert("Enter a valid number")
+    }
+  } else{
+    alert("Not a valid variable for testing");
+  }
+} 
 //some fixes and functionality changes
 
 function Afforability(){

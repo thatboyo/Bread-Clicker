@@ -76,14 +76,45 @@ var commandBlocksOwned = "";
 var magicalBreadMachineOwned = "";
 var amazonsOwned = "";
 
-
 const BasePrices = {
   chungie: 100,
   toaster: 2000,
   bakery: 35000,
   robot: 100000,
-  craftingTable: 200000,
+  craftingTable: 600000,
+  villagers: 5600000,
+  commandBlocks: 35000000,
+  magicalBreadMachine: 190000000,
+  amazon: 2820000000000
 };
+//hopefully this will work
+const saveKey = "breadClickerSaveThingy";
+const countKeys =["chungies", "toasters", "bakeries", "robots", "craftingTables", "villagers", "commandBlocks", "magicalBreadMachine", "amazons"];
+function getState(){
+  return {v:2, bread, chungies, toasters, bakeries, robots, craftingTables, villagers, commandBlocks, magicalBreadMachine, amazons};
+}
+function loadState(s){
+  if (!s || typeof s.bread !== "number" || !isFinite(s.bread) || s.bread < 0) return false;
+  for (const key of countKeys) {
+    const val = s[key] === undefined ? 0 : s[key];
+    if (!Number.isInteger(val) || val < 0) return false;
+    //didnt know how to do this lol, had to look it up
+  }
+  bread = s.bread;
+  chungies = s.chungies || 0;
+  toasters = s.toasters || 0;
+  bakeries = s.bakeries || 0;
+  robots = s.robots || 0;
+  craftingTables = s.craftingTables || 0;
+  villagers = s.villagers || 0;
+  commandBlocks = s.commandBlocks || 0;
+  magicalBreadMachine = s.magicalBreadMachine || 0;
+  amazons = s.amazons || 0;
+  update();
+  return true;
+}
+
+
 const PriceGrowth = 1.15;
 function recalcPrices() {
   chungiePrice       = BasePrices.chungie       * Math.pow(PriceGrowth, chungies);
@@ -91,36 +122,36 @@ function recalcPrices() {
   bakeryPrice        = BasePrices.bakery        * Math.pow(PriceGrowth, bakeries);
   robotPrice         = BasePrices.robot         * Math.pow(PriceGrowth, robots);
   craftingTablePrice = BasePrices.craftingTable * Math.pow(PriceGrowth, craftingTables);
+  villagersPrice      = BasePrices.villagers      * Math.pow(PriceGrowth, villagers);
+  commandBlockPrice  = BasePrices.commandBlocks  * Math.pow(PriceGrowth, commandBlocks);
+  magicalBreadMachinePrice = BasePrices.magicalBreadMachine * Math.pow(PriceGrowth, magicalBreadMachine);
+  amazonPrice        = BasePrices.amazon        * Math.pow(PriceGrowth, amazons);
 }
 
 function getSaveCode(){
-  const state = {v: 1, bread, chungies, toasters, bakeries, robots, craftingTables};
-  return btoa(JSON.stringify(state));
+  return btoa(JSON.stringify(getState()));
 }
 
 function loadSaveCode(code){
-  try{
-    const s = JSON.parse(atob(code.trim()));
-    const counts = ["chungies", "toasters", "bakeries", "robots", "craftingTables"];
-    if (typeof s.bread !== "number" || !isFinite(s.bread) || s.bread < 0) return false;
-    for (const key of counts) {
-      if (!Number.isInteger(s[key]) || s[key] < 0) return false;
-    }
-    bread = s.bread;
-    chungies = s.chungies;
-    toasters = s.toasters;   
-    bakeries = s.bakeries;
-    robots = s.robots;
-    craftingTables = s.craftingTables;
-
-    recalcPrices();
-    recalcCPS();
-    update();
-    return true;
-  } catch (e) {
-    return false;
+  try {
+    return loadState(JSON.parse(atob(code.trim())));}
+    catch (e) {return false;
   }
-} //idk if this will work or not
+} 
+//hopefully this will autosave
+function saveToLocalStorage(){
+  try { localStorage.setItem(saveKey, JSON.stringify(getState()));}
+  catch (e) {}
+}
+function loadFromLocalStorage(){
+  try {
+    const raw = localStorage.getItem(saveKey);
+    if (raw) loadState(JSON.parse(raw));
+  } catch (e) {}
+  }
+setInterval(saveToLocalStorage, 5000);
+window.addEventListener("beforeunload", saveToLocalStorage);
+
 function recalcCPS(){
   CPS = chungies * 1
        + toasters * 10
@@ -143,6 +174,9 @@ const loadMsg= document.getElementById("loadMsg");
 
 menuBtn.onclick = function(){
   menuPanel.hidden = !menuPanel.hidden;
+    saveArea.hidden = true;
+    loadArea.hidden = true;
+    saveArea.hidden = true;
 }
 document.getElementById("saveBtn").onclick = function(){
   saveCode.value = getSaveCode();
@@ -164,6 +198,9 @@ document.getElementById("copyBtn").onclick = function(){
 document.addEventListener("click", function (e) {
   if (!document.getElementById("menu").contains(e.target)){
     menuPanel.hidden = true;
+    saveArea.hidden = true;
+    loadArea.hidden = true;
+    saveArea.hidden = true;
   }
 })
 
@@ -185,17 +222,17 @@ function clicked() {
   update();
 }
 setInterval(function() {
-  bread += toasters * 1.0;
-  bread += chungies * 0.1;
-  bread += bakeries * 2.0;
-  bread += robots * 6.0;
-  bread += craftingTables * 25.0;
-  bread += villagers * 100.0;
-  bread += commandBlocks * 640.0;
-  bread += magicalBreadMachine * 1200.0;
-  bread += amazons * 9999.0;
+  bread += toasters * 0.10;
+  bread += chungies * 0.01;
+  bread += bakeries * 0.20;
+  bread += robots * 0.60;
+  bread += craftingTables * 2.5;
+  bread += villagers * 10.00;
+  bread += commandBlocks * 64.00;
+  bread += magicalBreadMachine * 120.00;
+  bread += amazons * 999.90;
   update();
-}, 100);
+}, 10); //made the numbers update more often
 
 function update(){
    recalcCPS();
@@ -214,6 +251,43 @@ function update(){
    AmazonPriceText.textContent = "Buy the Amazon Company: $" + Math.round(amazonPrice)+ "(Your Goal)";
    bps.textContent = "Bread per Second: " + CPS;
    Afforability();
+
+       if (chungies >= 1){
+      chungiesOwned = "  Owned: " + chungies;
+      chungieBPS = ",  1 BPS,"  ;
+    }
+       if (toasters >= 1){
+      toastersOwned = "  Owned: " + toasters;
+      toasterBPS  = ", 10 BPS,";
+    }
+     if (bakeries >= 1){
+      bakeriesOwned = "  Owned: " + bakeries;
+      bakeryBPS = ", 20 BPS,";
+    }
+    if (robots >= 1){
+      robotsOwned =  "  Owned: " + robots;
+      robotBPS = ",  60 BPS,";
+    }
+    if (craftingTables >= 1){
+      craftingTablesOwned = "  Owned: " + craftingTables;
+      craftingTableBPS = ", 250 BPS,";
+    }
+    if (villagers >= 1){
+      villagersOwned = "  Owned: " + villagers;
+      villagerBPS = ", 1000 BPS,";
+    }
+    if (commandBlocks >= 1){
+      commandBlocksOwned = "  Owned: " + commandBlocks;
+      commandBlockBPS = ", 6400 BPS,";
+    }
+    if (magicalBreadMachine >= 1){
+      magicalBreadMachineOwned = "  Owned: " + magicalBreadMachine;
+      magicalBreadMachineBPS = ", 1200 BPS,";
+    }
+    if (amazons >= 1){
+      amazonsOwned = "  Owned: " + amazons;
+      amazonBPS = ", 99990 BPS,";
+    }
 }
 
 function chungieBuy(){
@@ -221,10 +295,6 @@ function chungieBuy(){
     bread = bread - chungiePrice;
     chungies ++;
     chungiePrice = chungiePrice * 1.15;
-    if (chungies >= 1){
-      chungiesOwned = "  Owned: " + chungies;
-      chungieBPS = ",  1 BPS,"  ;
-    }
     update();
   }
 }
@@ -233,10 +303,6 @@ function toasterBuy(){
     bread = bread - toasterPrice;
     toasters ++;
     toasterPrice = toasterPrice * 1.15;
-    if (toasters >= 1){
-      toastersOwned = "  Owned: " + toasters;
-      toasterBPS  = ", 10 BPS,";
-    }
     update();
   }
 }
@@ -245,10 +311,6 @@ function bakeryBuy(){
     bread = bread - bakeryPrice;
     bakeries++;
     bakeryPrice = bakeryPrice * 1.15;
-    if (bakeries >= 1){
-      bakeriesOwned = "  Owned: " + bakeries;
-      bakeryBPS = ", 20 BPS,";
-    }
     update();
   }
 }
@@ -257,10 +319,6 @@ function robotBuy(){
     bread = bread - robotPrice;
     robots++;
     robotPrice = robotPrice * 1.15;
-    if (robots >= 1){
-      robotsOwned =  "  Owned: " + robots;
-      robotBPS = ",  60 BPS,";
-    }
     update();
   }
 }
@@ -269,10 +327,6 @@ function craftingTableBuy(){
     bread = bread - craftingTablePrice;
     craftingTables++;
     craftingTablePrice = craftingTablePrice * 1.15;
-    if (craftingTables >= 1){
-      craftingTablesOwned = "  Owned: " + craftingTables;
-      craftingTableBPS = ", 250 BPS,";
-    }
     update();
   }
 }
@@ -281,7 +335,7 @@ function VillagerBuy(){
     bread = bread - villagersPrice;
     villagers++;
     villagersPrice = villagersPrice * 1.15;
-    //CPS +=  villagers* 150;
+    
     update();
   }
 }
@@ -290,7 +344,6 @@ function commandBlockBuy(){
     bread = bread - commandBlockPrice;
     commandBlocks++;
     commandBlockPrice = commandBlockPrice * 1.15;
-    //CPS +=  commandBlocks* 150;
     update();
   }
 }
@@ -299,7 +352,6 @@ function magicalBreadMachineBuy(){
     bread = bread - magicalBreadMachinePrice;
     magicalBreadMachine++; 
     magicalBreadMachinePrice = magicalBreadMachinePrice * 1.15;
-    //CPS +=  magicalBreadMachine* 150;
     update();
   }
 }
@@ -308,14 +360,12 @@ function amazonBuy(){
     bread = bread - amazonPrice;
     amazons++;
     amazonPrice = amazonPrice * 1.15;
-    //CPS +=  amazons* 150;
     update();
   }
 }
 
 function testingBtn(){
   //testing btn so I can test all the items easier
-
   var debug = prompt("what variable do you wanna test?");
   if (window.hasOwnProperty(debug)){
     var newValue = prompt("What would like to change the value of " + debug + " to?")
@@ -331,7 +381,7 @@ function testingBtn(){
     alert("Not a valid variable for testing");
   }
 } 
-//some fixes and functionality changes
+//I gotta add some more stuff to this soon
 
 function Afforability(){
   const prices = {
@@ -352,12 +402,17 @@ function Afforability(){
   }
 }
 
+loadFromLocalStorage();
+update();
+//yay! this actually works!
+
 
 
 /*
-todo: finish villager, command block, magical bread machine, and amazon functionality.  
-Add sound effects and music. Add achievements and goals. Add a prestige system. 
-Add more graphics and animations.  Add a mobile-friendly layout.
+todo: 
+Add sound effects and music. 
+Add achievements and goals. 
+Add more graphics and animations.  
+Add a mobile-friendly layout.
+add updgrades and cool stuff(Lowk probably with crafting table)
 */
-
-

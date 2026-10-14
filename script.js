@@ -45,6 +45,8 @@ robotBTN = document.getElementById("4");
 robotBTN.onclick = robotBuy;
 craftingTableBTN = document.getElementById("5");
 craftingTableBTN.onclick = craftingTableBuy;
+casinoBTN = document.getElementById("6");
+casinoBTN.onclick = gambling;
 villagerBTN = document.getElementById("7"); 
 villagerBTN.onclick = VillagerBuy;
 commandBlockBTN = document.getElementById("8"); 
@@ -75,6 +77,14 @@ var villagersOwned = "";
 var commandBlocksOwned = "";
 var magicalBreadMachineOwned = "";
 var amazonsOwned = "";
+
+const menuBtn = document.getElementById("menuBtn");
+const menuPanel = document.getElementById("menuPanel");
+const saveArea = document.getElementById("saveArea");
+const loadArea = document.getElementById("loadArea");
+const saveCode = document.getElementById("saveCode");
+const loadCode = document.getElementById("loadCode");
+const loadMsg= document.getElementById("loadMsg");
 
 const BasePrices = {
   chungie: 100,
@@ -163,14 +173,6 @@ function recalcCPS(){
        + magicalBreadMachine * 9500
        + amazons * 99999
 }
-
-const menuBtn = document.getElementById("menuBtn");
-const menuPanel = document.getElementById("menuPanel");
-const saveArea = document.getElementById("saveArea");
-const loadArea = document.getElementById("loadArea");
-const saveCode = document.getElementById("saveCode");
-const loadCode = document.getElementById("loadCode");
-const loadMsg= document.getElementById("loadMsg");
 
 menuBtn.onclick = function(){
   menuPanel.hidden = !menuPanel.hidden;
@@ -364,6 +366,66 @@ function amazonBuy(){
   }
 }
 
+function gambling()  {
+  if (bread >= casinoPrice){
+    //I will be changing this and making it better lol
+    //this is only temporary
+    var gambleType = prompt("What would you like to gamble on? \n Roulette (1) \n Dice (2) \n Coin Flip (3)");
+
+    if (gambleType == "1"){
+      var rouletteType = prompt("What would like to bet on? \n Color: Returns 2x (1) \n Number: Returns 36x (2)");
+      if (rouletteType == "1"){
+        var rouletteColor = prompt("What color would you like to bet on? \n Red (1) \n Black (2)?");
+        if (rouletteColor == "1" || rouletteColor == "2"){
+          var rouletteBet = prompt("How much would you like to bet?");
+          var rouletteResult = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
+          if (rouletteResult == rouletteColor){
+            if (rouletteColor == "1"){
+              rouletteResult = "Red";
+          }  else if (rouletteColor == "2"){
+            rouletteResult = "Black";
+          }
+          alert("Rolled " +  rouletteResult + "! You get " + rouletteBet * 2 + " bread!");
+          bread += rouletteBet * 2;
+          update();
+        }else{
+          alert("Color was " + rouletteResult + ": You Lose!");
+          bread -= rouletteBet;
+          update();
+        }
+        } else {
+          alert("Enter a valid number between 1-2");
+          gambling();
+        }
+
+        } else if (rouletteType == "2"){
+            var rouletteNumber = prompt("What number would you like to bet on?  0-36");
+            if (rouletteNumber >= 0 && rouletteNumber <= 36){
+              var rouletteBet = prompt("How much would you like to bet?");
+              if (rouletteBet > bread){
+                alert("You don't have enough bread for that bet!")
+                gambling();
+              } 
+              var rouletteResult = Math.floor(Math.random() * (37 - 0 + 1)) + 1;
+              if (rouletteResult == rouletteNumber){
+                  alert("You Win! You get " + rouletteBet * 36 + " bread!");
+                  bread += rouletteBet * 36;
+                  update();
+              } else {
+                  alert("Rolled a " + rouletteResult + ": You Lose!");
+                  bread -= rouletteBet;
+                  update();
+           }
+        }else {
+          alert("Enter a valid number between 0-36");
+          gambling();
+        }
+        
+      
+      }
+    }
+  }
+}
 function testingBtn(){
   //testing btn so I can test all the items easier
   var debug = prompt("what variable do you wanna test?");

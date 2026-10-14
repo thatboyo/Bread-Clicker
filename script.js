@@ -45,8 +45,6 @@ robotBTN = document.getElementById("4");
 robotBTN.onclick = robotBuy;
 craftingTableBTN = document.getElementById("5");
 craftingTableBTN.onclick = craftingTableBuy;
-//cBTN = document.getElementById("6"); 
-//chungieBTN.onclick = chungieBuy;
 villagerBTN = document.getElementById("7"); 
 villagerBTN.onclick = VillagerBuy;
 commandBlockBTN = document.getElementById("8"); 
@@ -58,6 +56,27 @@ amazonBTN = document.getElementById("11");
 amazonBTN.onclick = amazonBuy;
 testingBTN = document.getElementById("12");
 testingBTN.onclick = testingBtn;
+
+var chungieBPS = "";
+var toasterBPS = "";
+var bakeryBPS = "";
+var robotBPS  = "";
+var craftingTableBPS = "";
+var villagerBPS = "";
+var commandBlockBPS = "";
+var magicalBreadMachineBPS = "";
+var amazonBPS = "";
+var chungiesOwned = "";
+var toastersOwned = "";
+var bakeriesOwned = "";
+var robotsOwned = "";
+var craftingTablesOwned = "";
+var villagersOwned = "";
+var commandBlocksOwned = "";
+var magicalBreadMachineOwned = "";
+var amazonsOwned = "";
+
+
 const BasePrices = {
   chungie: 100,
   toaster: 2000,
@@ -183,15 +202,15 @@ function update(){
    recalcPrices();
    clickedAmount = document.getElementById("amount")
    clickedAmount.textContent = "Bread Baked: " + Math.round(bread);
-   ChungiePriceText.textContent = "Hire a Chungie: $" + Math.round(chungiePrice) + "  Owned: " + chungies;
-   ToasterPriceText.textContent = "Buy a Toaster: $" + Math.round(toasterPrice)+ "  Owned: " + toasters;
-   BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ "  Owned: " + bakeries;
-   RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + "  Owned: " + robots;
-   CraftingTablePriceText.textContent = "Invest in a Crafting Table: $" + Math.round(craftingTablePrice)+ "  Owned: " + craftingTables;
+   ChungiePriceText.textContent = "Hire a Chungie: $" + Math.round(chungiePrice) +  chungieBPS + chungiesOwned;
+   ToasterPriceText.textContent = "Buy a Toaster: $" + Math.round(toasterPrice)+ toasterBPS + toastersOwned;
+   BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ bakeryBPS + bakeriesOwned;
+   RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + robotBPS + robotsOwned;
+   CraftingTablePriceText.textContent = "Buy a Crafting Table: $" + Math.round(craftingTablePrice)+ craftingTableBPS + craftingTablesOwned;
 
-   VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + "  Owned: " + villagers;
-   CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ "  Owned: " + commandBlocks;
-   MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice)+ "  Owned: " + magicalBreadMachine;
+   VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + villagerBPS + villagersOwned;
+   CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ commandBlockBPS + commandBlocksOwned;
+   MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice)+ magicalBreadMachineBPS + magicalBreadMachineOwned;
    AmazonPriceText.textContent = "Buy the Amazon Company: $" + Math.round(amazonPrice)+ "(Your Goal)";
    bps.textContent = "Bread per Second: " + CPS;
    Afforability();
@@ -202,7 +221,10 @@ function chungieBuy(){
     bread = bread - chungiePrice;
     chungies ++;
     chungiePrice = chungiePrice * 1.15;
-    //CPS ++;;
+    if (chungies >= 1){
+      chungiesOwned = "  Owned: " + chungies;
+      chungieBPS = ",  1 BPS,"  ;
+    }
     update();
   }
 }
@@ -211,7 +233,10 @@ function toasterBuy(){
     bread = bread - toasterPrice;
     toasters ++;
     toasterPrice = toasterPrice * 1.15;
-    //CPS +=  toasters * 10;
+    if (toasters >= 1){
+      toastersOwned = "  Owned: " + toasters;
+      toasterBPS  = ", 10 BPS,";
+    }
     update();
   }
 }
@@ -220,7 +245,10 @@ function bakeryBuy(){
     bread = bread - bakeryPrice;
     bakeries++;
     bakeryPrice = bakeryPrice * 1.15;
-    //CPS +=  bakeries * 20;
+    if (bakeries >= 1){
+      bakeriesOwned = "  Owned: " + bakeries;
+      bakeryBPS = ", 20 BPS,";
+    }
     update();
   }
 }
@@ -229,7 +257,10 @@ function robotBuy(){
     bread = bread - robotPrice;
     robots++;
     robotPrice = robotPrice * 1.15;
-   // CPS +=  robots * 60;
+    if (robots >= 1){
+      robotsOwned =  "  Owned: " + robots;
+      robotBPS = ",  60 BPS,";
+    }
     update();
   }
 }
@@ -238,7 +269,10 @@ function craftingTableBuy(){
     bread = bread - craftingTablePrice;
     craftingTables++;
     craftingTablePrice = craftingTablePrice * 1.15;
-    //CPS +=  craftingTables* 150;
+    if (craftingTables >= 1){
+      craftingTablesOwned = "  Owned: " + craftingTables;
+      craftingTableBPS = ", 250 BPS,";
+    }
     update();
   }
 }
@@ -263,7 +297,7 @@ function commandBlockBuy(){
 function magicalBreadMachineBuy(){
   if (bread >= magicalBreadMachinePrice){
     bread = bread - magicalBreadMachinePrice;
-    magicalBreadMachine++;
+    magicalBreadMachine++; 
     magicalBreadMachinePrice = magicalBreadMachinePrice * 1.15;
     //CPS +=  magicalBreadMachine* 150;
     update();
@@ -320,7 +354,10 @@ function Afforability(){
 
 
 
-
-
+/*
+todo: finish villager, command block, magical bread machine, and amazon functionality.  
+Add sound effects and music. Add achievements and goals. Add a prestige system. 
+Add more graphics and animations.  Add a mobile-friendly layout.
+*/
 
 

@@ -239,6 +239,9 @@ setInterval(function() {
 function update(){
    recalcCPS();
    recalcPrices();
+   if (bread < 0 ){
+    bread = 0;
+   }
    clickedAmount = document.getElementById("amount")
    clickedAmount.textContent = "Bread Baked: " + Math.round(bread);
    ChungiePriceText.textContent = "Hire a Chungie: $" + Math.round(chungiePrice) +  chungieBPS + chungiesOwned;
@@ -366,36 +369,46 @@ function amazonBuy(){
   }
 }
 
-function gambling()  {
-  if (bread >= casinoPrice){
-    //I will be changing this and making it better lol
-    //this is only temporary
-    var gambleType = prompt("What would you like to gamble on? \n Roulette (1) \n Dice (2) \n Coin Flip (3)");
+function roulette() {
+var rouletteType = prompt("What would like to bet on? \n Color: Returns 2x (1) \n Number: Returns 36x (2)");
 
-    if (gambleType == "1"){
-      var rouletteType = prompt("What would like to bet on? \n Color: Returns 2x (1) \n Number: Returns 36x (2)");
       if (rouletteType == "1"){
         var rouletteColor = prompt("What color would you like to bet on? \n Red (1) \n Black (2)?");
+
         if (rouletteColor == "1" || rouletteColor == "2"){
-          var rouletteBet = prompt("How much would you like to bet?");
-          var rouletteResult = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
-          if (rouletteResult == rouletteColor){
-            if (rouletteColor == "1"){
-              rouletteResult = "Red";
-          }  else if (rouletteColor == "2"){
-            rouletteResult = "Black";
+              var rouletteBet = prompt("How much would you like to bet?");
+              rouletteBet = Number(rouletteBet);
+              if (rouletteBet > bread){
+                alert("You can't bet more than you have silly!")
+                gambling();
+              }
+          var rouletteResult = Math.floor(Math.random() * 37);
+          var resultText;
+           
+          if (rouletteResult == 0){
+            resultText = "Green";
           }
-          alert("Rolled " +  rouletteResult + "! You get " + rouletteBet * 2 + " bread!");
-          bread += rouletteBet * 2;
+          else if (rouletteResult % 2 == 0){
+            resultText = "Red"
+            rouletteResult = 1
+          } else {
+            resultText = "Black"
+            rouletteResult = 2
+          }
+
+          if (rouletteResult == rouletteColor){ 
+          alert("Rolled " + resultText + "! You get " + rouletteBet + " bread!");
+          bread += rouletteBet;
           update();
         }else{
-          alert("Color was " + rouletteResult + ": You Lose!");
+              
+          alert("Color was " + resultText + ": You Lose!");
           bread -= rouletteBet;
           update();
         }
         } else {
           alert("Enter a valid number between 1-2");
-          gambling();
+          roulette();
         }
 
         } else if (rouletteType == "2"){
@@ -403,27 +416,98 @@ function gambling()  {
             if (rouletteNumber >= 0 && rouletteNumber <= 36){
               var rouletteBet = prompt("How much would you like to bet?");
               if (rouletteBet > bread){
-                alert("You don't have enough bread for that bet!")
+                alert("You can't bet more than you have silly!")
                 gambling();
               } 
               var rouletteResult = Math.floor(Math.random() * (37 - 0 + 1)) + 1;
               if (rouletteResult == rouletteNumber){
-                  alert("You Win! You get " + rouletteBet * 36 + " bread!");
-                  bread += rouletteBet * 36;
+                  rouletteBet *= 36;
+                  alert("You Win! You get " + rouletteBet + " bread :)");
+                  bread += rouletteBet;
                   update();
               } else {
-                  alert("Rolled a " + rouletteResult + ": You Lose!");
+                  alert("Rolled a " + rouletteResult + ": You Lose: " + rouletteBet + " bread :(");
                   bread -= rouletteBet;
                   update();
            }
         }else {
           alert("Enter a valid number between 0-36");
-          gambling();
+          roulette();
         }
         
       
       }
+}
+
+function Dice(){
+  var diceNum = prompt("What number would you like to bet on? (1-6)")
+  diceNum = Number(diceNum);
+  var diceBet = prompt("How much would you like to bet? (5.5x Multiplier)")
+  if (diceBet > bread){
+    alert("You can't bet more than you have silly!")
+    diceBet();
+  }
+  if (diceNum >=1 || diceNum <= 6){
+    diceResult = Math.floor(Math.random()*(6 - 0 + 1)) + 1;
+    if (diceNum == diceResult) {
+      diceBet *=  5.5;
+      alert("Die Rolled a " + diceResult + ", You Win: " + diceBet + " bread :)");
+      bread += diceBet;
+    } else {
+      alert("Die Rolled a " + diceResult + ", You Lose: " + diceBet + " bread :(");
+      bread -= diceBet;
     }
+  } 
+}
+
+function coinFlip(){
+  var coinNum = prompt("Heads(1) or Tails(2)?")
+  coinNum = Number(coinNum);
+
+  if (coinNum == 1 || coinNum == 2){
+    var coinBet = prompt("How much would you like to bet?(2x Multiplier)")
+    coinBet = Number(coinBet);
+
+    if (coinBet > bread){
+      alert("You can bet more than you have silly!")
+      coinFlip();
+    }
+
+    var coinResult = Math.floor(Math.random)
+    if (coinResult == 1){
+      var coinResultText = "Heads";
+    } else {
+      var coinResultText = "Tails";
+    }
+
+    if(coinResult == coinNum){
+      coinBet *= 2;
+      alert("Flipped a " + coinResultText + ", You Win: " + coinBet + " bread :)");
+      bread += coinBet;
+    } else {
+      alert("Flipped a " + coinResultText + ", You Lose: " + coinBet + " bread :)")
+      bread -= coinBet;
+    }
+  }
+}
+
+function gambling()  {
+  if (bread >= casinoPrice){
+    //I will be changing this and making it better lol
+    //this is only temporary
+    var gambleType = prompt("What would you like to gamble on? \n Roulette (1) \n Dice (2) \n Coin Flip (3)");
+
+    if (gambleType == "1"){
+      roulette();
+    } else if (gambleType == "2"){
+      dice();
+    } else if (gambleType == "3") {
+      coinFlip();
+    } else {
+      alert("Please enter a number from 1 - 3")
+      gambling();
+    }
+  
   }
 }
 function testingBtn(){
@@ -472,6 +556,7 @@ update();
 
 /*
 todo: 
+finish the casino minigame.
 Add sound effects and music. 
 Add achievements and goals. 
 Add more graphics and animations.  

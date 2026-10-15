@@ -13,7 +13,7 @@ This is bread clicker, my own twist on cookie clicker. This was a lot of fun to 
  TODO:
  1. Make sure the game doesn't clear every time you reload the page ~(1 hour). ✓
 
- 2. Add basic Functionality to the minigames ~(2 hours).
+ 2. Add basic Functionality to the minigames ~(2 hours). ✓
 
  3. Add upgrades and other cool stuf ~(2 hours)
 

@@ -19,6 +19,7 @@ var amazonPrice = 2820000000000;
 var amazons = 0;
 var snakeGamePrice = 60000000;
 var casinoPrice = 900000;
+var casinoUnlock = false;
 var breadSprite;
 var clickedAmount;
 var ChungiePriceText = document.getElementById("1");
@@ -26,6 +27,8 @@ var ToasterPriceText = document.getElementById("2");
 var BakeryPriceText  = document.getElementById("3");
 var RobotPriceText = document.getElementById("4");
 var CraftingTablePriceText = document.getElementById("5");
+var CasinoPriceText = document.getElementById("6")
+var CasinoPriceTextUnlock = "Unlock the Casino: $" + Math.round(casinoPrice);
 var VillagerPriceText = document.getElementById("7");
 var CommandBlockPriceText  = document.getElementById("8");
 var MagicBreadPriceText = document.getElementById("9");
@@ -239,7 +242,7 @@ setInterval(function() {
 function update(){
    recalcCPS();
    recalcPrices();
-   if (bread < 0 ){
+   if (bread < 0 || isNaN(bread) ){
     bread = 0;
    }
    clickedAmount = document.getElementById("amount")
@@ -253,6 +256,7 @@ function update(){
    VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + villagerBPS + villagersOwned;
    CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ commandBlockBPS + commandBlocksOwned;
    MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice)+ magicalBreadMachineBPS + magicalBreadMachineOwned;
+   CasinoPriceText.textContent = CasinoPriceTextUnlock;
    AmazonPriceText.textContent = "Buy the Amazon Company: $" + Math.round(amazonPrice)+ "(Your Goal)";
    bps.textContent = "Bread per Second: " + CPS;
    Afforability();
@@ -368,6 +372,15 @@ function amazonBuy(){
     update();
   }
 }
+function askBet(){
+  var rawBet = prompt("How much would you like to bet?" + (note || ""));
+  if (rawBet == null) return null;
+  var bet = Number(rawBet);
+  if(rawBet.trim() == "" || !Number.isFinite(bet) || bet <= 0){
+    alert("Enter a bet above 0.")
+    return null;
+  }
+}
 
 function roulette() {
 var rouletteType = prompt("What would like to bet on? \n Color: Returns 2x (1) \n Number: Returns 36x (2)");
@@ -439,7 +452,7 @@ var rouletteType = prompt("What would like to bet on? \n Color: Returns 2x (1) \
       }
 }
 
-function Dice(){
+function dice(){
   var diceNum = prompt("What number would you like to bet on? (1-6)")
   diceNum = Number(diceNum);
   var diceBet = prompt("How much would you like to bet? (5.5x Multiplier)")
@@ -464,7 +477,7 @@ function coinFlip(){
   var coinNum = prompt("Heads(1) or Tails(2)?")
   coinNum = Number(coinNum);
 
-  if (coinNum == 1 || coinNum == 2){
+  if (coinNum == 1 || coinNum == 0){
     var coinBet = prompt("How much would you like to bet?(2x Multiplier)")
     coinBet = Number(coinBet);
 
@@ -481,7 +494,6 @@ function coinFlip(){
     }
 
     if(coinResult == coinNum){
-      coinBet *= 2;
       alert("Flipped a " + coinResultText + ", You Win: " + coinBet + " bread :)");
       bread += coinBet;
     } else {
@@ -492,9 +504,13 @@ function coinFlip(){
 }
 
 function gambling()  {
-  if (bread >= casinoPrice){
+  if (bread >= casinoPrice && !casinoUnlock){
     //I will be changing this and making it better lol
     //this is only temporary
+    casinoUnlock = true;
+    bread -= casinoPrice;
+    CasinoPriceTextUnlock = "Go to the Casino";
+  } else if (casinoUnlock){
     var gambleType = prompt("What would you like to gamble on? \n Roulette (1) \n Dice (2) \n Coin Flip (3)");
 
     if (gambleType == "1"){
@@ -510,16 +526,37 @@ function gambling()  {
   
   }
 }
+
 function testingBtn(){
+  var debug = prompt("What would you like to test?")
+  if (debug == "var"){
+    variableTest();
+  }else if (debug == "function"){
+    functionTest();
+  }
+}
+function functionTest(){
+  var functTest = prompt("What function to test?")
+  if (functTest == null) return;
+  functTest = functTest.trim();
+  if (typeof window[functTest] == "function"){
+    window[functTest]();
+    update();
+  }else{
+    alert("Not a function!")
+  }
+}
+
+function variableTest(){
   //testing btn so I can test all the items easier
-  var debug = prompt("what variable do you wanna test?");
-  if (window.hasOwnProperty(debug)){
-    var newValue = prompt("What would like to change the value of " + debug + " to?")
+  var varTest = prompt("what variable do you wanna test?");
+  if (window.hasOwnProperty(varTest)){
+    var newValue = prompt("What would like to change the value of " + varTest + " to?")
     var numValue = Number(newValue);
     if (!isNaN(numValue)){
-      window[debug] = numValue;
-      alert(debug + " changed to " + numValue);
-      update();
+      window[varTest] = numValue;
+      alert(newValue+ " changed to " + numValue);
+      update(); 
     } else {
       alert("Enter a valid number")
     }
@@ -544,7 +581,13 @@ function Afforability(){
     "11":amazonPrice
   };
   for (const id in prices){
-    document.getElementById(id).disabled = bread < prices[id];
+    const btn = document.getElementById(id);
+    if (!btn) continue;
+    if (id == "6" && casinoUnlock){
+      btn.disabled = false;
+    } else{
+      btn.disabled = bread < prices[id];
+    }
   }
 }
 
@@ -554,9 +597,9 @@ update();
 
 
 
-/*
+/*d
 todo: 
-finish the casino minigame.
+finish the casino minigame(basic functionality for now). ✓
 Add sound effects and music. 
 Add achievements and goals. 
 Add more graphics and animations.  

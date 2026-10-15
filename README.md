@@ -19,4 +19,4 @@ This is bread clicker, my own twist on cookie clicker. This was a lot of fun to 
 
  4. Add some cool stuff to the info page ~ (1-2 hours)
 
- 5. Add sprites and graphics to both minigames  ~(4 hours)
+ 5. Add sprites and graphics to both minigames  ~(4 -6 hours)

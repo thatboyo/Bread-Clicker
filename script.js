@@ -469,7 +469,7 @@ function coinFlip(){
     coinBet = Number(coinBet);
 
     if (coinBet > bread){
-      alert("You can bet more than you have silly!")
+      alert("You can't bet more than you have silly!")
       coinFlip();
     }
 

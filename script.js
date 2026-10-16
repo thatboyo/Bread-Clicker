@@ -28,7 +28,6 @@ var BakeryPriceText  = document.getElementById("3");
 var RobotPriceText = document.getElementById("4");
 var CraftingTablePriceText = document.getElementById("5");
 var CasinoPriceText = document.getElementById("6")
-var CasinoPriceTextUnlock = "Unlock the Casino: $" + Math.round(casinoPrice);
 var VillagerPriceText = document.getElementById("7");
 var CommandBlockPriceText  = document.getElementById("8");
 var MagicBreadPriceText = document.getElementById("9");
@@ -36,6 +35,8 @@ var AmazonPriceText = document.getElementById("11");
 var CPS = 0;
 var cool = false;
 var bps = document.getElementById("BPS");
+var password = "Terra123";
+var pass = false;
 
 breadSprite = document.getElementById("bread"); 
 breadSprite.onclick = clicked;
@@ -103,7 +104,7 @@ const BasePrices = {
 };
 //hopefully this will work
 const saveKey = "breadClickerSaveThingy";
-const countKeys =["chungies", "toasters", "bakeries", "robots", "craftingTables", "villagers", "commandBlocks", "magicalBreadMachine", "amazons", "casinoUnlock" ];
+const countKeys =["chungies", "toasters", "bakeries", "robots", "craftingTables", "villagers", "commandBlocks", "magicalBreadMachine", "amazons" ];
 function getState(){
   return {v:2, bread, chungies, toasters, bakeries, robots, craftingTables, villagers, commandBlocks, magicalBreadMachine, amazons, casinoUnlock};
 }
@@ -124,7 +125,7 @@ function loadState(s){
   commandBlocks = s.commandBlocks || 0;
   magicalBreadMachine = s.magicalBreadMachine || 0;
   amazons = s.amazons || 0;
-  casinoUnlock = s.casinoBTN == true;
+  casinoUnlock = s.casinoUnlock == true;
   update();
   return true;
 }
@@ -237,7 +238,7 @@ setInterval(function() {
   bread += villagers * 10.00;
   bread += commandBlocks * 64.00;
   bread += magicalBreadMachine * 1200.00;
-  bread += amazons * 9999.90;
+  bread += amazons * 9999.99;
   update();
 }, 10); //made the numbers update more often
 
@@ -258,7 +259,7 @@ function update(){
    VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + villagerBPS + villagersOwned;
    CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ commandBlockBPS + commandBlocksOwned;
    MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice)+ magicalBreadMachineBPS + magicalBreadMachineOwned;
-   CasinoPriceText.textContent = casinoUnlock? "Go to the Casino" : "Unlock the Casino" + Math.round(casinoPrice); 
+   CasinoPriceText.textContent = casinoUnlock? "Go to the Casino" : "Unlock the Casino: $" + Math.round(casinoPrice); 
    AmazonPriceText.textContent = "Buy the Amazon Company: $" + Math.round(amazonPrice)+ "(Your Goal)";
    bps.textContent = "Bread per Second: " + CPS;
    Afforability();
@@ -374,7 +375,7 @@ function amazonBuy(){
     update();
   }
 }
-function askBet(){
+function askBet(note){
   var rawBet = prompt("How much would you like to bet?" + (note || ""));
   if (rawBet == null) return null;
   var bet = Number(rawBet);
@@ -384,96 +385,95 @@ function askBet(){
   }
   if (bet > bread){
     alert("You can't bet more than you have silly!")
-    askBet();
+    return null;
   }
   return bet;
 }
 
-function roulette() {
-var rouletteType = prompt("What would like to bet on? \n Color: Returns 2x (1) \n Number: Returns 36x (2)");
+function roulette(){
+  var rouletteType = prompt("What would you like to bet on? \n Color: Returns 2x (1) \n Number: Returns 36x (2)");
+  if (rouletteType == null) return;
 
-      if (rouletteType == "1"){
-        var rouletteColor = prompt("What color would you like to bet on? \n Red (1) \n Black (2)?");
+  var bet;
+  var rouletteResult = Math.floor(Math.random() * 37);   // 0-36
 
-        if (rouletteColor == "1" || rouletteColor == "2"){
-              askBet();
-        } else {
-          alert("Enter a valid number between 1-2");
-          roulette();
-
-          var rouletteResult = Math.floor(Math.random() * 37);
-          var resultText;
-           
-          if (rouletteResult == 0){
-            resultText = "Green";
-          }
-          else if (rouletteResult % 2 == 0){
-            resultText = "Red"
-            rouletteResult = 1
-          } else {
-            resultText = "Black"
-            rouletteResult = 2
-          }
-
-          if (rouletteResult == rouletteColor){ 
-          alert("Rolled " + resultText + "! You get " + Bet + " bread!");
-          bread += Bet;
-          update();
-        }else{
-          alert("Color was " + resultText + ": You Lose!");
-          bread -= Bet;
-          update();
-        }
-      }
+  if (rouletteType == "1"){
+    var rouletteColor = prompt("What color would you like to bet on? \n Red (1) \n Black (2)");
+    if (rouletteColor != "1" && rouletteColor != "2"){
+      if (rouletteColor != null) alert("Enter 1 or 2");
+      return;
     }
-         else if (rouletteType == "2"){
-            var rouletteNumber = prompt("What number would you like to bet on?  0-36");
-            if (rouletteNumber >= 0 && rouletteNumber <= 36){
-              askBet();
-              } 
-              var rouletteResult = Math.floor(Math.random() * 37);
-              if (rouletteResult == rouletteNumber){
-                  bet *= 36;
-                  alert("You Win! You get " + bet + " bread :)");
-                  bread += bet;
-                  update();
-              } else {
-                  alert("Rolled a " + rouletteResult + ": You Lose: " + bet + " bread :(");
-                  bread -= bet;
-                  update();
-           }
-        }else {
-          alert("Enter a valid number between 0-36");
-          roulette();
-        }
+    bet = askBet();
+    if (bet == null) return;
+
+    var resultText;
+    var resultColor;
+    if (rouletteResult == 0){ resultText = "Green"; resultColor = 0; }
+    else if (rouletteResult % 2 == 0){ resultText = "Red"; resultColor = 1; }
+    else { resultText = "Black"; resultColor = 2; }
+
+    if (resultColor == rouletteColor){
+      alert("Rolled " + resultText + "! You win " + bet + " bread!");
+      bread += bet;
+    } else {
+      alert("Rolled " + resultText + ": You lose " + bet + " bread!");
+      bread -= bet;
+    }
+
+  } else if (rouletteType == "2"){
+    var rawNumber = prompt("What number would you like to bet on? 0-36");
+    if (rawNumber == null) return;
+    var rouletteNumber = Number(rawNumber);
+    if (rawNumber.trim() == "" || !Number.isInteger(rouletteNumber) || rouletteNumber < 0 || rouletteNumber > 36){
+      alert("Enter a whole number from 0-36");
+      return;
+    }
+    bet = askBet();
+    if (bet == null) return;
+
+    if (rouletteResult == rouletteNumber){
+      alert("You win! You get " + (bet * 36) + " bread :)");
+      bread += bet * 36;
+    } else {
+      alert("Rolled a " + rouletteResult + ": You lose " + bet + " bread :(");
+      bread -= bet;
+    }
+
+  } else {
+    alert("Enter 1 or 2");
+    return;
+  }
+  update();
 }
 
 function dice(){
   var diceNum = prompt("What number would you like to bet on? (1-6)")
   diceNum = Number(diceNum);
-  askBet();
-  }
-  if (diceNum >=1 || diceNum <= 6){
+  if (diceNum >=1 && diceNum <= 6){
+    var bet = askBet("(5.5x Multiplier)");
+    if (bet == null) return;
     diceResult = Math.floor(Math.random() * 6) + 1;
     if (diceNum == diceResult) {
       bet *=  5.5;
       alert("Die Rolled a " + diceResult + ", You Win: " + bet + " bread :)");
-      bread += diceBet;
+      bread += bet;
     } else {
       alert("Die Rolled a " + diceResult + ", You Lose: " + bet + " bread :(");
       bread -= bet;
     }
   } 
-
+}
 function coinFlip(){
   var coinNum = prompt("Heads(1) or Tails(0)?")
-  coinNum = Number(coinNum);
+  if (coinNum !="1" && coinNum !="0"){
+    if (coinNum != null) alert("Enter either 1 or 0")
+       return;
+  }
+    coinNum = Number(coinNum);
+    var bet = askBet("(2x Multiplier)");
+    if (bet == null) return;
 
-  if (coinNum == 1 || coinNum == 0){
-    askBet();
-    }
-
-    var coinResult = Math.floor(Math.random());
+    var coinResult = Math.floor(Math.random() * 2);
     if (coinResult == 1){
       var coinResultText = "Heads";
     } else {
@@ -484,7 +484,7 @@ function coinFlip(){
       alert("Flipped a " + coinResultText + ", You Win: " + bet + " bread :)");
       bread += bet;
     } else {
-      alert("Flipped a " + coinResultText + ", You Lose: " + bet + " bread :)")
+      alert("Flipped a " + coinResultText + ", You Lose: " + bet + " bread :(")
       bread -= bet;
     }
   }
@@ -496,10 +496,9 @@ function gambling()  {
     //this is only temporary
     casinoUnlock = true;
     bread -= casinoPrice;
-    CasinoPriceTextUnlock = "Go to the Casino";
   } else if (casinoUnlock){
     var gambleType = prompt("What would you like to gamble on? \n Roulette (1) \n Dice (2) \n Coin Flip (3)");
-
+    if (gambleType == null) return;
     if (gambleType == "1"){
       roulette();
     } else if (gambleType == "2"){
@@ -516,9 +515,9 @@ function gambling()  {
 
 function secretPassword(){
   //bro really made the most useless function of 2026, lol
-  var password = "Terra123";
+ 
   var passInput = prompt("What's the Secret Password?")
-  var pass = false;
+  
   if (passInput == password || cool == true){
     pass = true;
   } else {
@@ -556,7 +555,7 @@ function variableTest(){
     var numValue = Number(newValue);
     if (!isNaN(numValue)){
       window[varTest] = numValue;
-      alert(newValue+ " changed to " + numValue);
+      alert(varTest + " changed to " + numValue);
       update(); 
     } else {
       alert("Enter a valid number")

@@ -1,4 +1,7 @@
-
+document.getElementById("coolSecret").onclick = function(){
+  alert("You have become cool!")
+  var cool = true;
+}
 
 
 

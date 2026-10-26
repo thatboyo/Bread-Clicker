@@ -37,6 +37,8 @@ var cool = false;
 var bps = document.getElementById("BPS");
 var password = "Terra123";
 var pass = false;
+var craftingUpgrade = 1;
+var Upgrade = 1;
 
 breadSprite = document.getElementById("bread"); 
 breadSprite.onclick = clicked;
@@ -50,6 +52,10 @@ robotBTN = document.getElementById("4");
 robotBTN.onclick = robotBuy;
 craftingTableBTN = document.getElementById("5");
 craftingTableBTN.onclick = craftingTableBuy;
+//craftingBTN = document.getElementBYId("craft")
+//craftingBTN.onclick = openCraftingTable();
+// setupfor crafting ugrades and stuff
+
 casinoBTN = document.getElementById("6");
 casinoBTN.onclick = gambling;
 villagerBTN = document.getElementById("7"); 
@@ -229,18 +235,28 @@ function clicked() {
    bread++;
   update();
 }
+
+function openCraftingTable(){
+  console.log("Crafting coming soon :)");
+  alert("Crafting coming soon :)")
+  upgradeTable();
+}
+function upgradeTable() {
+  Upgrade = (craftingUpgrade/4) + 1;
+}
 setInterval(function() {
-  bread += toasters * 0.10;
-  bread += chungies * 0.01;
-  bread += bakeries * 0.20;
-  bread += robots * 0.60;
-  bread += craftingTables * 2.5;
-  bread += villagers * 10.00;
-  bread += commandBlocks * 64.00;
-  bread += magicalBreadMachine * 1200.00;
-  bread += amazons * 9999.99;
+  bread += toasters * 0.10 * Upgrade;
+  bread += chungies * 0.01 * Upgrade;
+  bread += bakeries * 0.20 * Upgrade;
+  bread += robots * 0.60 * Upgrade;
+  bread += craftingTables * 2.5 * Upgrade;
+  bread += villagers * 10.00 * Upgrade;
+  bread += commandBlocks * 64.00 * Upgrade;
+  bread += magicalBreadMachine * 1200.00 * Upgrade;
+  bread += amazons * 9999.99 * Upgrade;
   update();
-}, 10); //made the numbers update more often
+}, 10); //added the upgrade variable to prepare for 
+//        the crafting update
 
 function update(){
    recalcCPS();
@@ -550,7 +566,7 @@ function functionTest(){
 function variableTest(){
   //testing btn so I can test all the items easier
   var varTest = prompt("what variable do you wanna test?");
-  if (window.hasOwnProperty(varTest)){
+  if (window.hasOwnProperty(varTvest)){
     var newValue = prompt("What would like to change the value of " + varTest + " to?")
     var numValue = Number(newValue);
     if (!isNaN(numValue)){
@@ -592,7 +608,7 @@ function Afforability(){
 }
 
 loadFromLocalStorage();
-update();
+update()
 //yay! this actually works!
 
 

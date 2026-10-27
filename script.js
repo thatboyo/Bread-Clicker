@@ -52,9 +52,12 @@ robotBTN = document.getElementById("4");
 robotBTN.onclick = robotBuy;
 craftingTableBTN = document.getElementById("5");
 craftingTableBTN.onclick = craftingTableBuy;
-//craftingBTN = document.getElementBYId("craft")
-//craftingBTN.onclick = openCraftingTable();
-// setupfor crafting ugrades and stuff
+var craftingOverlay = document.getElementById("craftingOverlay");
+var craftingBTN = document.getElementById("craft");
+craftingBTN.onclick = openCraftingTable;
+var closeBTN = document.getElementById("close");
+closeBTN.onclick = close;
+//setupfor crafting ugrades and stuff
 
 casinoBTN = document.getElementById("6");
 casinoBTN.onclick = gambling;
@@ -96,6 +99,19 @@ const loadArea = document.getElementById("loadArea");
 const saveCode = document.getElementById("saveCode");
 const loadCode = document.getElementById("loadCode");
 const loadMsg= document.getElementById("loadMsg");
+
+function openCraftingTable(){
+  craftingOverlay.hidden = false;
+}
+function upgradeTable() {
+  Upgrade = (craftingUpgrade/4) + 1;
+
+}
+function close() {
+  craftingOverlay.hidden = true;
+}
+//i gotta research how to use event listners 
+//so if you click off the box it closes
 
 const BasePrices = {
   chungie: 100,
@@ -236,14 +252,6 @@ function clicked() {
   update();
 }
 
-function openCraftingTable(){
-  console.log("Crafting coming soon :)");
-  alert("Crafting coming soon :)")
-  upgradeTable();
-}
-function upgradeTable() {
-  Upgrade = (craftingUpgrade/4) + 1;
-}
 setInterval(function() {
   bread += toasters * 0.10 * Upgrade;
   bread += chungies * 0.01 * Upgrade;
@@ -566,7 +574,7 @@ function functionTest(){
 function variableTest(){
   //testing btn so I can test all the items easier
   var varTest = prompt("what variable do you wanna test?");
-  if (window.hasOwnProperty(varTvest)){
+  if (window.hasOwnProperty(varTest)){
     var newValue = prompt("What would like to change the value of " + varTest + " to?")
     var numValue = Number(newValue);
     if (!isNaN(numValue)){

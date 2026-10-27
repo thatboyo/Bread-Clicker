@@ -31,6 +31,24 @@
             </div>            
         </div>
     </div>
+    <div id="craftingOverlay" hidden>
+        <div id="craftingPanel" role="dialog" aria-modal="true" aria-labelledby="craftingTitle">
+            <button id="close" type="button" aria-label="Close">X</button>
+            <h2 id="craftingTitle">Crafting Table</h2>
+            <div id="craftingBody">
+                <div id="craftingGrid">
+                    <div class="slot"></div><div class="slot"></div><div class="slot"></div>
+                    <div class="slot"></div><div class="slot"></div><div class="slot"></div>
+                    <div class="slot"></div><div class="slot"></div><div class="slot"></div>
+                </div>
+                <div id="craftingArrow">&rarr;</div>
+                <div id="craftingResult" class="slot"></div>
+            </div>
+            <div id="craftingUpgrades">
+                <!---gotta figure what upgrades i want-->
+            </div>
+        </div>
+    </div>
     <div id="game">
         <div id="left">
             <button id="bread" type="button" aria-label="Bake bread">
@@ -38,20 +56,24 @@
             <p id="amount">Bread Baked: </p>
             <p id="BPS">Bread per Second: </p>
         </div>
-        <div id="divider"></div>
+        <div id="divider">
+        </div>
         <div id="right">
             <button id="1">Hire a Chungie</button>
             <button id="2">Buy a Toaster</button>
             <button id="3">Buy a Bakery</button>
             <button id="4">Buy a Robot</button>
-            <button id="5">Invest in a Crafting Table</button>
+            <div class="row">
+                <button id="5">Invest in a Crafting Table</button>
+                <button id="craft" type ="button" aria-label="Open Crafting Table" hidden>&#9638;</button>
+            </div>
             <button id="6">Gamble at a Casino (working but WIP)</button>
             <button id="7">Hire a Villager</button>
             <button id="8">Code a Command Block</button>
             <button id="9">Invent a Magical Bread Machine</button>
             <button id="10">Play Snake (MiniGame) (WIP)</button>
             <button id="11">Buy Amazon! (Your Goal!)</button>
-            <button id="craft"> craft </button>
+            
             
         </div>
     </div>

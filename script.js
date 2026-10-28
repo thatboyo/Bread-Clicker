@@ -57,7 +57,11 @@ var craftingBTN = document.getElementById("craft");
 craftingBTN.onclick = openCraftingTable;
 var closeBTN = document.getElementById("close");
 closeBTN.onclick = close;
-//setupfor crafting ugrades and stuff
+snakeBTN = document.getElementById("10");
+snakeBTN.onclick = snake;
+//var villageTradeBTN  = document.getElementById("")
+//villageTradeBTN.onclick = tradeOpen;
+//for when i add the trading
 
 casinoBTN = document.getElementById("6");
 casinoBTN.onclick = gambling;
@@ -92,6 +96,15 @@ var commandBlocksOwned = "";
 var magicalBreadMachineOwned = "";
 var amazonsOwned = "";
 
+/*function tradeOpen(){
+  document.getElementById("tradeOverlay").hidden = false; 
+}  //just setting some small stuff for a future update
+
+function tradeClose(){
+  document.getElementById("tradeOverlay").hidden = true;
+}
+*/ 
+
 const menuBtn = document.getElementById("menuBtn");
 const menuPanel = document.getElementById("menuPanel");
 const saveArea = document.getElementById("saveArea");
@@ -102,6 +115,7 @@ const loadMsg= document.getElementById("loadMsg");
 
 function openCraftingTable(){
   craftingOverlay.hidden = false;
+  alert("The Crafting Panel is still a WIP")
 }
 function upgradeTable() {
   Upgrade = (craftingUpgrade/4) + 1;
@@ -110,8 +124,16 @@ function upgradeTable() {
 function close() {
   craftingOverlay.hidden = true;
 }
-//i gotta research how to use event listners 
-//so if you click off the box it closes
+
+craftingOverlay.addEventListener("click", function(e){
+  if (e.target == craftingOverlay) close();
+});
+document.addEventListener("keydown", function(e){
+  if (e.key == "Escape") close();
+});
+//use the event lisnters to close the thingy
+//if you click off or use escape
+
 
 const BasePrices = {
   chungie: 100,
@@ -252,6 +274,8 @@ function clicked() {
   update();
 }
 
+//at some point ill have to change this 
+//when i make the bread abbreviation system
 setInterval(function() {
   bread += toasters * 0.10 * Upgrade;
   bread += chungies * 0.01 * Upgrade;
@@ -263,8 +287,7 @@ setInterval(function() {
   bread += magicalBreadMachine * 1200.00 * Upgrade;
   bread += amazons * 9999.99 * Upgrade;
   update();
-}, 10); //added the upgrade variable to prepare for 
-//        the crafting update
+}, 10); 
 
 function update(){
    recalcCPS();
@@ -324,6 +347,7 @@ function update(){
       amazonsOwned = "  Owned: " + amazons;
       amazonBPS = ", 999999 BPS,";
     }
+    craftingBTN.hidden = craftingTables < 1; 
 }
 
 function chungieBuy(){
@@ -468,8 +492,8 @@ function roulette(){
     return;
   }
   update();
-}
-
+} 
+ 
 function dice(){
   var diceNum = prompt("What number would you like to bet on? (1-6)")
   diceNum = Number(diceNum);
@@ -537,6 +561,11 @@ function gambling()  {
   }
 }
 
+function snake(){
+  alert("The Snake minigame will becoming in version 4.0, \n Current version 2.1 ")
+}
+
+
 function secretPassword(){
   //bro really made the most useless function of 2026, lol
  
@@ -546,11 +575,12 @@ function secretPassword(){
     pass = true;
   } else {
     alert("Wrong Password Buddy!")
+    return;
   }
 }
 function testingBtn(){
   secretPassword();
-  if (pass = true){
+  if (pass){
     var debug = prompt("What would you like to test?")
     if (debug == "var"){
       variableTest();
@@ -623,10 +653,15 @@ update()
 
 /*
 todo: 
-finish the casino minigame(basic functionality for now). ✓
 Add sound effects and music. 
 Add achievements and goals. 
 Add more graphics and animations.  
 Add a mobile-friendly layout.
-add updgrades and cool stuff(Lowk probably with crafting table)
 */
+
+// as of 10/28/26
+//added the upgrade variable to prepare for 
+//        the crafting update
+//         after Im gonna add a similar feature to the villagers
+//         in which you can trade
+//          a full list of TODOs is in the ReadMe

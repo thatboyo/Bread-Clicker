@@ -10,17 +10,13 @@ This is bread clicker, my own twist on cookie clicker. This was a lot of fun to 
 
  THIS is a **WIP**, and I will be making many improvements to this project in order to turn it into a really fun game thats actually worth playing! 
 
- TODO:
- 1. Make sure the game doesn't clear every time you reload the page ~(1 hour). ✓
+Updated TODO:
+ 1. Add upgrades and other cool stuff ~(8 hours)
 
- 2. Add basic Functionality to the Casino ~(2 hours). ✓
+ 2. Add sound effects and music ~(2 hours)
 
- 3. Add sound effects and music ~(2 hours)
+ 3. Add a Mobile-Friendly layout(also abbreviate the bread once it gets past 1 mil) (idk how to do this)
 
- 4. Add a Mobile-Friendly layout(also abbreviate the bread once it gets past 1 mil) (idk how to do this)
+ 4. Add sprites and graphics to both minigames  ~(7-12 hours)
 
- 5. Add upgrades and other cool stuff ~(2 hours)
-
- 6. Add some cool stuff to the info page ~(1-2 hours)
-
- 7. Add sprites and graphics to both minigames  ~(4-6 hours)
+ 5. Add a rebirth system

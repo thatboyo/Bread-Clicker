@@ -562,7 +562,7 @@ function gambling()  {
 }
 
 function snake(){
-  alert("The Snake minigame will becoming in version 4.0, \n Current version 2.1 ")
+  alert("The Snake minigame will be coming in version 4.0, \n Current version 2.1 ")
 }
 
 

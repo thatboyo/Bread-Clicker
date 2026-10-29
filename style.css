@@ -182,6 +182,18 @@ h1{
     min-width: 0;
     width: 64px;
     height: 64px;
+    padding: 0 ;
+    text-align: center;
+    font-size: 24px;
+}
+#craftingOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba (0, 0, 0, 0.6);
 }
 
 #craftingPanel {
@@ -191,7 +203,7 @@ h1{
     overflow-y: auto;
     box-sizing: border-box;
     padding: 24px;
-    background: #3b2c19;
+    background: #91652d;
     border: 4px solid #2b1d0e;
     box-shadow: 8px 8px - #2b1d0e;
 }
@@ -211,4 +223,39 @@ h1{
     padding:  6px 10px;
     cursor: pointer;
     text-shadow: none;
+} 
+#craftingBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+#craftingGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 64px);
+    grid-template-rows: repeat(3, 64px);
+    gap: 4px;
+} 
+.slot {
+    background-color: #8b8b8b;
+    border: 4px solid;
+    border-color: #373737 #ffffff #ffffff #373737;
+    box-sizing: border-box;
+}
+#craftingResult {
+    width: 80px;
+    height: 80px;
+}
+#craftingArrow {font-size: 28px;}
+
+#craftingUpgrades {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+#craftingUpgrades button {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
 }

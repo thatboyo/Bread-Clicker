@@ -37,8 +37,7 @@ var cool = false;
 var bps = document.getElementById("BPS");
 var password = "Terra123";
 var pass = false;
-var craftingUpgrade = 1;
-var Upgrade = 1;
+
 
 breadSprite = document.getElementById("bread"); 
 breadSprite.onclick = clicked;
@@ -59,6 +58,7 @@ var closeBTN = document.getElementById("close");
 closeBTN.onclick = close;
 snakeBTN = document.getElementById("10");
 snakeBTN.onclick = snake;
+
 //var villageTradeBTN  = document.getElementById("")
 //villageTradeBTN.onclick = tradeOpen;
 //for when i add the trading
@@ -112,6 +112,63 @@ const loadArea = document.getElementById("loadArea");
 const saveCode = document.getElementById("saveCode");
 const loadCode = document.getElementById("loadCode");
 const loadMsg= document.getElementById("loadMsg");
+
+
+const upgradeList = [
+  {name: "Chungie Upgrade", basePrice: 1636, owned: false, icon: ""},
+  {name: "Toaster Upgrade", basePrice: 38420, owned: false, icon: ""},
+  {name: "Bakery Upgrade", basePrice: 572827, owned: false, icon: ""},
+  {name: "Robot Upgrade", basePrice: 1636650, owned: false, icon: ""},
+  {name: "Crafting Table Upgrade", basePrice: 9819900, owned: false, icon: ""},
+  {name: "Villager Upgrade", basePrice: 91652400, owned: false, icon: ""},
+  {name: "Command Block Upgrade", basePrice: 572827500, owned: false, icon: ""},
+  {name: "Bread Machine Upgrade", basePrice: 3109635000, owned: false, icon: ""}
+];  //basically just the price of the item after buying 20 times
+
+const up = {
+  chungie:0,
+  toaster:1,
+  bakery: 2,
+  robot: 3,
+  craftingTable: 4,
+  villager: 5, 
+  commandBlock: 6, 
+  breadMachine: 7
+};
+var upgradePrice = 10;
+var tableMinUpgrades = 5;
+var tableUpgrade = 10000000000;
+var maxLevel = 5;
+var tableLevel = 0;
+
+
+function upgradePrice(i){
+  return upgradeList[i].basePrice * upgradePrice;
+}//should work i think?
+
+
+/* later for resfreshing the table
+var u = upgradeList[i];
+    var btn = slotButtons[i];
+    btn.classList.toggle("owned", u.owned)
+    btn.disabled = u.owned || bread < upgradePrice(i);
+    SVGTextPositioningElement(btn, u.owned
+      ? u.name + " (bought)"
+      : u.name + ": $" + FormData(upgradePrice(i)) + " (" + tableMultiplier() + "x output)");
+      */
+function upgradesOwned(){
+  var n = 0;
+  for (var i = 0; i< upgradeList.length; i++) {
+    if (upgradeList[i].owned) n++;
+  }
+  return n;
+}
+function tableMultiplier() {
+  return 2 + tableLevel
+}
+function upgradeMultiplier() {
+return upgradeList[i].owned ? tableMultiplier() : 1;
+}
 
 function openCraftingTable(){
   craftingOverlay.hidden = false;
@@ -277,15 +334,15 @@ function clicked() {
 //at some point ill have to change this 
 //when i make the bread abbreviation system
 setInterval(function() {
-  bread += toasters * 0.10 * Upgrade;
-  bread += chungies * 0.01 * Upgrade;
-  bread += bakeries * 0.20 * Upgrade;
-  bread += robots * 0.60 * Upgrade;
-  bread += craftingTables * 2.5 * Upgrade;
-  bread += villagers * 10.00 * Upgrade;
-  bread += commandBlocks * 64.00 * Upgrade;
-  bread += magicalBreadMachine * 1200.00 * Upgrade;
-  bread += amazons * 9999.99 * Upgrade;
+  bread += toasters * 0.10 ;
+  bread += chungies * 0.01 ;
+  bread += bakeries * 0.20 ;
+  bread += robots * 0.60 ;
+  bread += craftingTables * 2.5 ;
+  bread += villagers * 10.00 ;
+  bread += commandBlocks * 64.00 ;
+  bread += magicalBreadMachine * 1200.00 ;
+  bread += amazons * 9999.99;
   update();
 }, 10); 
 

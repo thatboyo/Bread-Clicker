@@ -138,6 +138,7 @@ const up = {
 var upgradePrice = 10;
 var tableMinUpgrades = 5;
 var tableUpgrade = 10000000000;
+var tableDiscount = 0.1;
 var maxLevel = 5;
 var tableLevel = 0;
 
@@ -145,7 +146,6 @@ var tableLevel = 0;
 function upgradePrice(i){
   return upgradeList[i].basePrice * upgradePrice;
 }//should work i think?
-
 
 /* later for resfreshing the table
 var u = upgradeList[i];
@@ -168,6 +168,67 @@ function tableMultiplier() {
 }
 function upgradeMultiplier() {
 return upgradeList[i].owned ? tableMultiplier() : 1;
+}
+
+function tableUpgradePrice(){
+  var extra = Math.max(0, upgradesOwned() - tableMinUpgrades);
+  return tableUpgrade * (1 - tableDiscount * extra);
+}
+function buyUpgrade(i){
+  if (upgradeList[i].owned || bread < upgradePrice(i)) return;
+  bread -= upgradePrice(i);
+  upgradeList[i].owned = true;
+  update();
+}
+function buyTableUpgrade(){
+  if (tableLevel >= maxLevel) return;
+  if(upgradesOwned() < tableMinUpgrades) return;
+  var price = tableUpgradePrice();
+  bread -= price;
+  tableLevel++;
+  update();
+}
+
+
+//hopefully this will work
+var craftingGrid = document.getElementById("craftingGrid");
+var craftingInfo = document.getElementById("craftingInfo");
+var craftingResult = document.getElementById("craftinResult");
+var slots = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+var tableSlot; 
+
+function fmt(n) { return Math.round(n).toLocaleString();}
+function setText(el, text){ if (el.textContent !== text) el.textContent = text;}
+function setTitle(el, text) { if (el.title !== text) e.title = text;}
+
+function buildCraftingGrid() {
+  craftingGrid.innerHTML = "";
+  slotButtons = [];
+  for (var pos = 0; pos < 9; pos+) {
+    var btn = document.getElementById("button");
+    btn.type = "button";
+    btn.className = "slot";
+    craftingGrid.appendChild(btn);
+     if (pos == 4) {
+      tableSlot = btn;
+      btn.textContent = "T";
+      btn.onclick = buyTableUpgrade;
+     } else {
+      var i = slots.indexOf(pos);
+      var u = upgradeList[i];
+      if (u.icon) {
+        var img = document.createElement("img")
+        img.src = u.icon;
+        img.alt = u.name;
+        btn.appendChild(img);
+      } else {
+        btn.textContent = u.name;CharacterData(0);
+        
+      }
+      btn.onclick = function() { buyUpgrade(i); };
+      slotButtons[i] = btn;
+     }
+  }
 }
 
 function openCraftingTable(){
@@ -207,7 +268,9 @@ const BasePrices = {
 const saveKey = "breadClickerSaveThingy";
 const countKeys =["chungies", "toasters", "bakeries", "robots", "craftingTables", "villagers", "commandBlocks", "magicalBreadMachine", "amazons" ];
 function getState(){
-  return {v:2, bread, chungies, toasters, bakeries, robots, craftingTables, villagers, commandBlocks, magicalBreadMachine, amazons, casinoUnlock};
+  return {v:2, bread, chungies, toasters, bakeries, robots, craftingTables, villagers, commandBlocks, magicalBreadMachine, amazons, casinoUnlock,
+    upgrades: upgradeList.map(function(u){return u.owned;}), tableLevel
+  };
 }
 function loadState(s){
   if (!s || typeof s.bread !== "number" || !isFinite(s.bread) || s.bread < 0) return false;
@@ -215,6 +278,12 @@ function loadState(s){
     const val = s[key] === undefined ? 0 : s[key];
     if (!Number.isInteger(val) || val < 0) return false;
     //didnt know how to do this lol, had to look it up
+
+    var savedUpgrades = Array.isArray(s.upgrades) ? s.upgrades: [];
+    for (var i = 0; i < upgradeList.length; i ++){
+      upgradeList[i].owned = savedUpgrades[i] == true;
+    }
+    tableLevel = (Number.isInteger(s.tableLevel) && s.tableLevel <= maxLevel) ? s.tableLevel : 0;
   }
   bread = s.bread;
   chungies = s.chungies || 0;
@@ -270,14 +339,14 @@ setInterval(saveToLocalStorage, 5000);
 window.addEventListener("beforeunload", saveToLocalStorage);
 
 function recalcCPS(){
-  CPS = chungies * 1
-       + toasters * 10
-       + bakeries * 20
-       + robots * 60
-       + craftingTables * 250
-       + villagers * 1000
-       + commandBlocks * 6400
-       + magicalBreadMachine * 120000
+  CPS = chungies * 1 * upgradeMultiplier(up.chungie)
+       + toasters * 10 * upgradeMultiplier(up.toaster)
+       + bakeries * 20 * upgradeMultiplier(up.bakery)
+       + robots * 60 * upgradeMultiplier(up.robot)
+       + craftingTables * 250 * upgradeMultiplier(up.craftingTable)
+       + villagers * 1000 * upgradeMultiplier(up.villager)
+       + commandBlocks * 6400 * upgradeMultiplier(up.commandBlock)
+       + magicalBreadMachine * 120000 * upgradeMultiplier(up.breadMachine)
        + amazons * 999999
 }
 
@@ -334,14 +403,14 @@ function clicked() {
 //at some point ill have to change this 
 //when i make the bread abbreviation system
 setInterval(function() {
-  bread += toasters * 0.10 ;
-  bread += chungies * 0.01 ;
-  bread += bakeries * 0.20 ;
-  bread += robots * 0.60 ;
-  bread += craftingTables * 2.5 ;
-  bread += villagers * 10.00 ;
-  bread += commandBlocks * 64.00 ;
-  bread += magicalBreadMachine * 1200.00 ;
+  bread += toasters * 0.10  * upgradeMultiplier(up.toaster);
+  bread += chungies * 0.01 * upgradeMultiplier(up.chungie);
+  bread += bakeries * 0.20 * upgradeMultiplier(up.bakery);
+  bread += robots * 0.60 * upgradeMultiplier(up.robot);
+  bread += craftingTables * 2.5 * upgradeMultiplier(up.craftingTable);
+  bread += villagers * 10.00 * upgradeMultiplier(up.villager);
+  bread += commandBlocks * 64.00 * upgradeMultiplier(up.commandBlock);
+  bread += magicalBreadMachine * 1200.00 * upgradeMultiplier(up.breadMachine);
   bread += amazons * 9999.99;
   update();
 }, 10); 

@@ -805,6 +805,45 @@ function Afforability(){
 
 loadFromLocalStorage();
 update()
+
+
+
+
+function resetGame(){
+  if (!confirm("Delete your save and reset EVERYTHING? This can't be undone.")) return;
+
+
+  bread = 0;
+  chungies = 0;
+  toasters = 0;
+  bakeries = 0;
+  robots = 0;
+  craftingTables = 0;
+  villagers = 0;
+  commandBlocks = 0;
+  magicalBreadMachine = 0;
+  amazons = 0;
+  casinoUnlock = false;
+
+ 
+  for (var i = 0; i < upgradeList.length; i++){
+    upgradeList[i].owned = false;
+  }
+  tableLevel = 0;
+
+  
+  chungieBPS = toasterBPS = bakeryBPS = robotBPS = craftingTableBPS = "";
+  villagerBPS = commandBlockBPS = magicalBreadMachineBPS = amazonBPS = "";
+  chungiesOwned = toastersOwned = bakeriesOwned = robotsOwned = craftingTablesOwned = "";
+  villagersOwned = commandBlocksOwned = magicalBreadMachineOwned = amazonsOwned = "";
+
+  
+  craftingOverlay.hidden = true;
+
+  
+  try { localStorage.removeItem(saveKey); } catch (e) {}
+  update();
+}
 //yay! this actually works!
 
 

@@ -220,7 +220,7 @@ function buildCraftingGrid() {
       slotButtons[i] = btn;
      }
     } 
-  }
+  }//dashdfgayhsdsafsadsadasdasd
 
 function refreshCraft() {
   if (craftingOverlay.hidden) return;

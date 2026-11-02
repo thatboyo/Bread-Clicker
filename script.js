@@ -454,15 +454,15 @@ function update(){
    }
    clickedAmount = document.getElementById("amount")
    clickedAmount.textContent = "Bread Baked: " + Math.round(bread);
-   ChungiePriceText.textContent = "Hire a Chungie: $" + Math.round(chungiePrice) +  (chungieBPS * upgradeMultiplier(up.chungie)) + chungiesOwned;
-   ToasterPriceText.textContent = "Buy a Toaster: $" + Math.round(toasterPrice)+ (toasterBPS * upgradeMultiplier(up.toaster)) + toastersOwned;
-   BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ (bakeryBPS * upgradeMultiplier(up.bakery))  + bakeriesOwned;
-   RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + (robotBPS * upgradeMultiplier(up.robot)) + robotsOwned;
-   CraftingTablePriceText.textContent = "Buy a Crafting Table: $" + Math.round(craftingTablePrice)+ (craftingTableBPS * upgradeMultiplier(up.craftingTable)) + craftingTablesOwned;
+   ChungiePriceText.textContent = "Hire a Chungie: $" + Math.round(chungiePrice) +  chungieBPS + chungiesOwned;
+   ToasterPriceText.textContent = "Buy a Toaster: $" + Math.round(toasterPrice)+ toasterBPS + toastersOwned;
+   BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ bakeryBPS + bakeriesOwned;
+   RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + robotBPS + robotsOwned;
+   CraftingTablePriceText.textContent = "Buy a Crafting Table: $" + Math.round(craftingTablePrice)+ craftingTableBPS + craftingTablesOwned;
 
-   VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + (villagerBPS * upgradeMultiplier(up.villager)) + villagersOwned;
-   CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ (commandBlockBPS * upgradeMultiplier(up.commandBlock)) + commandBlocksOwned;
-   MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice)+ (magicalBreadMachineBPS * upgradeMultiplier(up.breadMachine)) + magicalBreadMachineOwned;
+   VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + villagerBPS + villagersOwned;
+   CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ commandBlockBPS + commandBlocksOwned;
+   MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice) + magicalBreadMachineBPS + magicalBreadMachineOwned;
    CasinoPriceText.textContent = casinoUnlock? "Go to the Casino" : "Unlock the Casino: $" + Math.round(casinoPrice); 
    AmazonPriceText.textContent = "Buy the Amazon Company: $" + Math.round(amazonPrice)+ "(Your Goal)";
    bps.textContent = "Bread per Second: " + CPS;
@@ -470,35 +470,35 @@ function update(){
 
        if (chungies >= 1){
       chungiesOwned = "  Owned: " + chungies;
-      chungieBPS = ",  1 BPS,"  ;
+      chungieBPS = ", " + fmt(1 * upgradeMultiplier(up.chungie)) + " BPS,"  ;
     }
        if (toasters >= 1){
       toastersOwned = "  Owned: " + toasters;
-      toasterBPS  = ", 10 BPS,";
+      toasterBPS  = ", " + fmt(10 * upgradeMultiplier(up.chungie)) + " BPS,"  ;
     }
      if (bakeries >= 1){
       bakeriesOwned = "  Owned: " + bakeries;
-      bakeryBPS = ", 20 BPS,";
+      bakeryBPS = ", " + fmt(20 * upgradeMultiplier(up.chungie)) + " BPS,"  ;
     }
     if (robots >= 1){
       robotsOwned =  "  Owned: " + robots;
-      robotBPS = ",  60 BPS,";
+      robotBPS = ", " + fmt(60 * upgradeMultiplier(up.chungie)) + " BPS,"  ;
     }
     if (craftingTables >= 1){
       craftingTablesOwned = "  Owned: " + craftingTables;
-      craftingTableBPS = ", 250 BPS,";
+      craftingTableBPS = ", " + fmt(250 * upgradeMultiplier(up.chungie)) + " BPS,"  ;
     }
     if (villagers >= 1){
       villagersOwned = "  Owned: " + villagers;
-      villagerBPS = ", 1000 BPS,";
+      villagerBPS = ", " + fmt(1000 * upgradeMultiplier(up.chungie)) + " BPS,"  ;
     }
     if (commandBlocks >= 1){
       commandBlocksOwned = "  Owned: " + commandBlocks;
-      commandBlockBPS = ", 6400 BPS,";
+      commandBlockBPS = ", " + fmt(6400 * upgradeMultiplier(up.chungie)) + " BPS,"  ;
     }
     if (magicalBreadMachine >= 1){
       magicalBreadMachineOwned = "  Owned: " + magicalBreadMachine;
-      magicalBreadMachineBPS = ", 120000 BPS,";
+      magicalBreadMachineBPS = ", " + fmt(120000 * upgradeMultiplier(up.chungie)) + " BPS,"  ;
     }
     if (amazons >= 1){
       amazonsOwned = "  Owned: " + amazons;

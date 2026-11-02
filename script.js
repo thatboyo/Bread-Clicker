@@ -157,7 +157,7 @@ function upgradesOwned(){
 function tableMultiplier() {
   return 2 + tableLevel
 }
-function upgradeMultiplier() {
+function upgradeMultiplier(i) {
 return upgradeList[i].owned ? tableMultiplier() : 1;
 }
 
@@ -175,52 +175,60 @@ function buyTableUpgrade(){
   if (tableLevel >= maxLevel) return;
   if(upgradesOwned() < tableMinUpgrades) return;
   var price = tableUpgradePrice();
+  if (bread < price) return;
   bread -= price;
   tableLevel++;
   update();
 }
 
 
-//hopefully this will work
+//hopefully this will work 
 var craftingGrid = document.getElementById("craftingGrid");
 var craftingInfo = document.getElementById("craftingInfo");
 var craftingResult = document.getElementById("craftingResult");
-var slots = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+var slots = [0, 1, 2, 3, 5, 6, 7, 8];
+var slotButtons = [];
 var tableSlot; 
 
 function fmt(n) { return Math.round(n).toLocaleString();}
 function setText(el, text){ if (el.textContent !== text) el.textContent = text;}
-function setTitle(el, text) { if (el.title !== text) e.title = text;}
+function setTitle(el, text) { if (el.title !== text) el.title = text;}
 
-function buildCraftingGrid() {
+function buildCraftingGrid(){
   craftingGrid.innerHTML = "";
   slotButtons = [];
-  for (var pos = 0; pos < 9; pos++) {
-    var btn = document.createElement("button");
+
+  tableSlot = craftingResult;
+  tableSlot.onclick =buyTableUpgrade;
+  
+  for (let pos = 0; pos < 9; pos++){
+    if (pos == 4){
+      let empty = document.createElement("div");
+      empty.className = "slot";
+      craftingGrid.appendChild(empty);
+      continue;
+    }
+
+    let btn = document.createElement("button");
     btn.type = "button";
     btn.className = "slot";
     craftingGrid.appendChild(btn);
-     if (pos == 4) {
-      tableSlot = btn;
-      btn.textContent = "T";
-      btn.onclick = buyTableUpgrade;
-     } else {
-      var i = slots.indexOf(pos);
-      var u = upgradeList[i];
-      if (u.icon) {
-        var img = document.createElement("img")
-        img.src = u.icon;
-        img.alt = u.name;
-        btn.appendChild(img);
-      } else {
-        btn.textContent = u.name.charAt(0);
-        
-      }
-      btn.onclick = function() { buyUpgrade(i); };
-      slotButtons[i] = btn;
-     }
-    } 
-  }//dashdfgayhsdsafsadsadasdasd
+    
+  
+    let i = slots.indexOf(pos);
+    let u = upgradeList[i];
+    if (u.icon) {
+      let img = document.createElement("img");
+      img.src = u.icon;
+      img.alt =u.name;
+      btn.appendChild(img);
+    } else{
+      btn.textContent = u.name.charAt(0);
+    }
+    btn.onclick = function() { buyUpgrade(i); };
+    slotButtons[i] = btn;
+  }
+}
 
 function refreshCraft() {
   if (craftingOverlay.hidden) return;
@@ -231,7 +239,7 @@ function refreshCraft() {
     btn.disabled = u.owned || bread < upgradePriceMultiplier(i);
     setTitle(btn, u.owned
       ? u.name + " (bought)"
-      : u.name + ": $" + fmt(upgradePriceMultiplier(i)) + " (" + tableMultiplier() + "* output)");
+      : u.name + ": $" + fmt(upgradePriceMultiplier(i)) + " (" + tableMultiplier() + "x output)");
   }
   var owned = upgradesOwned();
   var maxed = tableLevel >= maxLevel;
@@ -239,7 +247,7 @@ function refreshCraft() {
   var price = tableUpgradePrice();
   var status;
 
-tableSlot.classLit.toggle("owned", maxed);
+tableSlot.classList.toggle("owned", maxed);
 tableSlot.disabled = maxed || !unlocked  || bread < price;
 if (maxed){
   status = "Tabled is maxed out silly!";
@@ -251,12 +259,13 @@ if (maxed){
 setTitle(tableSlot, status);
 setText(craftingInfo, "Upgrades: " + owned + "/" + upgradeList.length + " | " + status);
 setText(craftingResult, tableMultiplier() + "x");
-}
+}//aughhhh please work for the love of everything
+
 buildCraftingGrid();
 
 function openCraftingTable(){
   craftingOverlay.hidden = false;
-  alert("The Crafting Panel is still a WIP")
+
 }
 function close() {
   craftingOverlay.hidden = true;
@@ -270,6 +279,7 @@ document.addEventListener("keydown", function(e){
 });
 //use the event lisnters to close the thingy
 //if you click off or use escape
+
 
 
 const BasePrices = {
@@ -297,13 +307,14 @@ function loadState(s){
     const val = s[key] === undefined ? 0 : s[key];
     if (!Number.isInteger(val) || val < 0) return false;
     //didnt know how to do this lol, had to look it up
+  }
 
-    var savedUpgrades = Array.isArray(s.upgrades) ? s.upgrades: [];
+  var savedUpgrades = Array.isArray(s.upgrades) ? s.upgrades: [];
     for (var i = 0; i < upgradeList.length; i ++){
       upgradeList[i].owned = savedUpgrades[i] == true;
     }
-    tableLevel = (Number.isInteger(s.tableLevel) && s.tableLevel <= maxLevel) ? s.tableLevel : 0;
-  }
+    tableLevel = (Number.isInteger(s.tableLevel) && s.tableLevel >= 0 && s.tableLevel <= maxLevel) ? s.tableLevel : 0;
+
   bread = s.bread;
   chungies = s.chungies || 0;
   toasters = s.toasters || 0;
@@ -344,6 +355,7 @@ function loadSaveCode(code){
   }
 } 
 //hopefully this will autosave
+
 function saveToLocalStorage(){
   try { localStorage.setItem(saveKey, JSON.stringify(getState()));}
   catch (e) {}
@@ -442,15 +454,15 @@ function update(){
    }
    clickedAmount = document.getElementById("amount")
    clickedAmount.textContent = "Bread Baked: " + Math.round(bread);
-   ChungiePriceText.textContent = "Hire a Chungie: $" + Math.round(chungiePrice) +  chungieBPS + chungiesOwned;
-   ToasterPriceText.textContent = "Buy a Toaster: $" + Math.round(toasterPrice)+ toasterBPS + toastersOwned;
-   BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ bakeryBPS + bakeriesOwned;
-   RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + robotBPS + robotsOwned;
-   CraftingTablePriceText.textContent = "Buy a Crafting Table: $" + Math.round(craftingTablePrice)+ craftingTableBPS + craftingTablesOwned;
+   ChungiePriceText.textContent = "Hire a Chungie: $" + Math.round(chungiePrice) +  (chungieBPS * upgradeMultiplier(up.chungie)) + chungiesOwned;
+   ToasterPriceText.textContent = "Buy a Toaster: $" + Math.round(toasterPrice)+ (toasterBPS * upgradeMultiplier(up.toaster)) + toastersOwned;
+   BakeryPriceText.textContent = "Buy a Bakery: $" + Math.round(bakeryPrice)+ (bakeryBPS * upgradeMultiplier(up.bakery))  + bakeriesOwned;
+   RobotPriceText.textContent = "Buy a Robot: $" + Math.round(robotPrice) + (robotBPS * upgradeMultiplier(up.robot)) + robotsOwned;
+   CraftingTablePriceText.textContent = "Buy a Crafting Table: $" + Math.round(craftingTablePrice)+ (craftingTableBPS * upgradeMultiplier(up.craftingTable)) + craftingTablesOwned;
 
-   VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + villagerBPS + villagersOwned;
-   CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ commandBlockBPS + commandBlocksOwned;
-   MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice)+ magicalBreadMachineBPS + magicalBreadMachineOwned;
+   VillagerPriceText.textContent = "Hire a Villager: $" + Math.round(villagersPrice) + (villagerBPS * upgradeMultiplier(up.villager)) + villagersOwned;
+   CommandBlockPriceText.textContent = "Encode a Command Block: $" + Math.round(commandBlockPrice)+ (commandBlockBPS * upgradeMultiplier(up.commandBlock)) + commandBlocksOwned;
+   MagicBreadPriceText.textContent = "Invent a Magic Bread Machine: $" + Math.round(magicalBreadMachinePrice)+ (magicalBreadMachineBPS * upgradeMultiplier(up.breadMachine)) + magicalBreadMachineOwned;
    CasinoPriceText.textContent = casinoUnlock? "Go to the Casino" : "Unlock the Casino: $" + Math.round(casinoPrice); 
    AmazonPriceText.textContent = "Buy the Amazon Company: $" + Math.round(amazonPrice)+ "(Your Goal)";
    bps.textContent = "Bread per Second: " + CPS;
@@ -493,6 +505,7 @@ function update(){
       amazonBPS = ", 999999 BPS,";
     }
     craftingBTN.hidden = craftingTables < 1; 
+    refreshCraft();
 }
 
 function chungieBuy(){

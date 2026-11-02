@@ -147,15 +147,6 @@ function upgradePrice(i){
   return upgradeList[i].basePrice * upgradePrice;
 }//should work i think?
 
-/* later for resfreshing the table
-var u = upgradeList[i];
-    var btn = slotButtons[i];
-    btn.classList.toggle("owned", u.owned)
-    btn.disabled = u.owned || bread < upgradePrice(i);
-    SVGTextPositioningElement(btn, u.owned
-      ? u.name + " (bought)"
-      : u.name + ": $" + FormData(upgradePrice(i)) + " (" + tableMultiplier() + "x output)");
-      */
 function upgradesOwned(){
   var n = 0;
   for (var i = 0; i< upgradeList.length; i++) {
@@ -193,7 +184,7 @@ function buyTableUpgrade(){
 //hopefully this will work
 var craftingGrid = document.getElementById("craftingGrid");
 var craftingInfo = document.getElementById("craftingInfo");
-var craftingResult = document.getElementById("craftinResult");
+var craftingResult = document.getElementById("craftingResult");
 var slots = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 var tableSlot; 
 
@@ -204,8 +195,8 @@ function setTitle(el, text) { if (el.title !== text) e.title = text;}
 function buildCraftingGrid() {
   craftingGrid.innerHTML = "";
   slotButtons = [];
-  for (var pos = 0; pos < 9; pos+) {
-    var btn = document.getElementById("button");
+  for (var pos = 0; pos < 9; pos++) {
+    var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "slot";
     craftingGrid.appendChild(btn);
@@ -222,22 +213,50 @@ function buildCraftingGrid() {
         img.alt = u.name;
         btn.appendChild(img);
       } else {
-        btn.textContent = u.name;CharacterData(0);
+        btn.textContent = u.name.charAt(0);
         
       }
       btn.onclick = function() { buyUpgrade(i); };
       slotButtons[i] = btn;
      }
+    } 
   }
+
+function refreshCraft() {
+  if (craftingOverlay.hidden) return;
+  for (var i = 0; i <upgradeList.length; i++){
+    var u = upgradeList[i];
+    var btn = slotButtons[i];
+    btn.classList.toggle("owned", u.owned);
+    btn.disabled = u.owned || bread < upgradePrice(i);
+    setTitle(btn, u.owned
+      ? u.name + " (bought)"
+      : u.name + ": $" + fmt(upgradePrice(i)) + " (" + tableMultiplier() + "* output)");
+  }
+  var owned = upgradesOwned();
+  var maxed = tableLevel >= maxLevel;
+  var unlocked = owned >= tableMinUpgrades;
+  var price = tableUpgradePrice();
+  var status;
+
+tableSlot.classLit.toggle("owned", maxed);
+tableSlot.disabled = maxed || !unlocked  || bread < price;
+if (maxed){
+  status = "Tabled is maxed out silly!";
+} else if (!unlocked){
+  status = "Table upgrade unlocks at " + tableMinUpgrades + " upgrades";
+} else {
+  status = "Table Upgrade: $" + fmt(price);
 }
+setTitle(tableSlot, status);
+setText(craftingInfo, "Upgrades: " + owned + "/" + upgradeList.length + " | " + status);
+setText(craftingResult, tableMultiplier() + "x");
+}
+buildCraftingGrid();
 
 function openCraftingTable(){
   craftingOverlay.hidden = false;
   alert("The Crafting Panel is still a WIP")
-}
-function upgradeTable() {
-  Upgrade = (craftingUpgrade/4) + 1;
-
 }
 function close() {
   craftingOverlay.hidden = true;

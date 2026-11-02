@@ -11,12 +11,14 @@ This is bread clicker, my own twist on cookie clicker. This was a lot of fun to 
  THIS is a **WIP**, and I will be making many improvements to this project in order to turn it into a really fun game thats actually worth playing! 
 
 Updated TODO:
- 1. Add upgrades and other cool stuff ~(8 hours)
+ 1. Add upgrades to the crafting table ✓
 
- 2. Add sound effects and music ~(2 hours)
+ 2. Add upgrades to the Villager
 
- 3. Add a Mobile-Friendly layout(also abbreviate the bread once it gets past 1 mil) (idk how to do this)
+ 3. Add sound effects and music ~(2 hours)
 
- 4. Add sprites and graphics to both minigames  ~(7-12 hours)
+ 4. Add a Mobile-Friendly layout(also abbreviate the bread once it gets past 1 mil) (idk how to do this)
 
- 5. Add a rebirth system
+ 5. Add sprites and graphics to both minigames  ~(7-12 hours)
+
+ 6. Add a rebirth system

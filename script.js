@@ -143,7 +143,7 @@ var maxLevel = 5;
 var tableLevel = 0;
 
 
-function upgradePrice(i){
+function upgradePriceMultiplier(i){
   return upgradeList[i].basePrice * upgradePrice;
 }//should work i think?
 
@@ -166,8 +166,8 @@ function tableUpgradePrice(){
   return tableUpgrade * (1 - tableDiscount * extra);
 }
 function buyUpgrade(i){
-  if (upgradeList[i].owned || bread < upgradePrice(i)) return;
-  bread -= upgradePrice(i);
+  if (upgradeList[i].owned || bread < upgradePriceMultiplier(i)) return;
+  bread -= upgradePriceMultiplier(i);
   upgradeList[i].owned = true;
   update();
 }
@@ -228,10 +228,10 @@ function refreshCraft() {
     var u = upgradeList[i];
     var btn = slotButtons[i];
     btn.classList.toggle("owned", u.owned);
-    btn.disabled = u.owned || bread < upgradePrice(i);
+    btn.disabled = u.owned || bread < upgradePriceMultiplier(i);
     setTitle(btn, u.owned
       ? u.name + " (bought)"
-      : u.name + ": $" + fmt(upgradePrice(i)) + " (" + tableMultiplier() + "* output)");
+      : u.name + ": $" + fmt(upgradePriceMultiplier(i)) + " (" + tableMultiplier() + "* output)");
   }
   var owned = upgradesOwned();
   var maxed = tableLevel >= maxLevel;

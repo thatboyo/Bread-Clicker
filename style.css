@@ -296,3 +296,46 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     color: #2b1d0e;
     text-shadow: none;
 }
+
+
+#startOverlay {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    overflow-y: auto;
+    padding: 16px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.6);
+}
+#startPanel {
+    position: relative;
+    width: min(560px, 92vw);
+    margin: auto;
+    box-sizing: border-box;
+    padding: 24px;
+    background: #91652d;
+    border: 4px solid #2b1d0e;
+    box-shadow: 8px 8px 0 #2b1d0e;
+}
+#startTitle {
+    margin: 0 44px 8px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+#startVersion {
+    margin: 0 0 8px;
+    font-size: 10px;
+}
+#startPanel h3 {
+    margin: 20px 0 10px;
+    font-size: 12px; 
+}
+#startPanel ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 10px;
+    line-height: 1.9;
+}

@@ -1,6 +1,6 @@
 # Bread-Clicker
 
-This project was made as part of HackClub Terra, 
+Like cookie clicker, but with my own twist
 It is NOT vibe-coded, the colors choosen for the colorscheme are the only thing AI, and that's because I am bad at color theory. The code writing is pretty much entirely my own.
 (during this change I did look up how to use and load to and from local storage, my js knowledge is decently basic lol)
 

@@ -9,12 +9,34 @@
 </head>
 <body>
     <h1>Bread Clicker</h1>
+    <div id="startOverlay" hidden>
+        <div id="startPanel" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+            <button id="startClose" type="button" aria-label="close">X</button>
+            <h2 id="startTitle">Welcome to Bread  Clicker</h2>
+            <p id="startVersion"></p>
+            <h3>How to Play</h3>
+            <ul>
+                <li>Clickon the bread to get bread, each bread sells for 1 dollar</li>
+                <li>Spend Bread on helpers to the right, they can bake bread automatically for you, </li>
+                <li>Buy a crafting Table, villager(WIP), or command block(WIP) for helpful upgrades</li>
+                <li>Use the menu to save and load, or transfer your save code to a new device </li>
+            </ul>
+
+            <h3>Version 2.75</h3>
+            <ul id="startChanges"></ul>
+                <li>Abbreviation System</li>
+                <li>Villager Trading Logic(coming soon)</li>
+                <button id="startBtn">Start!</button>
+        </div>
+    </div>
     <div id="menu">
         <button id="menuBtn" type="button">Menu</button>
         <div id="menuPanel" hidden>
             <button id="saveBtn" type ="button">Save</button>
             <button id="loadBtn" type="button">Load</button>
             <button id="infoBtn" type="button">Info</button>
+            <button id="newsBtn" type="button">What's New</button>
+            <button id="settingsBtn" type="button">Settings</button>
             <button id="12">Testing Button</button>
 
             <div id="saveArea" hidden>
@@ -45,7 +67,6 @@
                 <button id="craftingResult" class="slot" type="button"></button>
             </div>
             <div id="craftingUpgrades">
-                <!---gotta figure what upgrades i want-->
                 <p id="craftingInfo"></p>
             </div>
         </div>
@@ -69,7 +90,10 @@
                 <button id="craft" type ="button" aria-label="Open Crafting Table" hidden>&#9638;</button>
             </div>
             <button id="6">Gamble at a Casino (working but WIP)</button>
-            <button id="7">Hire a Villager</button>
+            <div class="row">
+                <button id="7">Hire a Villager</button>
+                <button id="trade" type ="button" aria-label="Open Villager Trading" hidden>💲</button>
+            </div>
             <button id="8">Code a Command Block</button>
             <button id="9">Invent a Magical Bread Machine</button>
             <button id="10">Play Snake (MiniGame) (WIP)</button>
@@ -82,6 +106,6 @@
     
 </body>
 </html>
-<!---  about 20 hours into this project, 
+<!---  about 30 hours into this project, 
        going so good so far :)
 -->

@@ -59,9 +59,9 @@ closeBTN.onclick = close;
 snakeBTN = document.getElementById("10");
 snakeBTN.onclick = snake;
 
-//var villageTradeBTN  = document.getElementById("")
-//villageTradeBTN.onclick = tradeOpen;
-//for when i add the trading
+var villageTradeBTN  = document.getElementById("trade")
+villageTradeBTN.onclick = tradeOpen;
+//for when I add the trading
 
 casinoBTN = document.getElementById("6");
 casinoBTN.onclick = gambling;
@@ -96,14 +96,45 @@ var commandBlocksOwned = "";
 var magicalBreadMachineOwned = "";
 var amazonsOwned = "";
 
-/*function tradeOpen(){
-  document.getElementById("tradeOverlay").hidden = false; 
+
+function tradeOpen(){
+  alert("Trading is coming soon! :)")
+  //document.getElementById("tradeOverlay").hidden = false; 
 }  //just setting some small stuff for a future update
 
 function tradeClose(){
-  document.getElementById("tradeOverlay").hidden = true;
+  //document.getElementById("tradeOverlay").hidden = true;
 }
-*/ 
+
+
+
+
+var newsBTN = document.getElementById("newsBtn");
+newsBTN.onclick = startOpen;
+function startOpen(){
+  document.getElementById("startOverlay").hidden = false;
+}
+
+var startCloseBTN = document.getElementById("startClose")
+startCloseBTN.onclick = startClose;
+var startBTN = document.getElementById("startBtn")
+startBTN.onclick = startClose;
+function startClose(){
+  document.getElementById("startOverlay").hidden = true;
+}
+
+function startBox(){
+  var seen = false;
+  try {seen = localStorage.getItem(startSeenKey) == "true"; } catch(e) {}
+  //idk how to do promises so i had to look this up, 
+  //should work after i add seen to the localstorage saving
+  if (seen) return;
+
+  startOpen();
+  try {localStorage.setItem(startSeenKey, "true"); } catch (e) {};
+}
+
+
 
 const menuBtn = document.getElementById("menuBtn");
 const menuPanel = document.getElementById("menuPanel");
@@ -167,7 +198,7 @@ function upgradesOwned(){
   return n;
 }
 function tableMultiplier() {
-  return 2 + tableLevel
+  return 2 * tableLevel
 }
 function upgradeMultiplier(i) {
 return upgradeList[i].owned ? tableMultiplier() : 1;
@@ -732,7 +763,7 @@ function gambling()  {
 }
 
 function snake(){
-  alert("The Snake minigame will be coming in version 4.0, \n Current version 2.1 ")
+  alert("The Snake minigame will be coming in version 4.0, \n Current version 2.75 ")
 }
 
 
@@ -868,9 +899,8 @@ Add more graphics and animations.
 Add a mobile-friendly layout.
 */
 
-// as of 10/28/26
-//added the upgrade variable to prepare for 
-//        the crafting update
+// as of 11/04/26
+//          added the abbreviation system
 //         after Im gonna add a similar feature to the villagers
 //         in which you can trade
 //          a full list of TODOs is in the ReadMe

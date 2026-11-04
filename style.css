@@ -339,3 +339,27 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     font-size: 10px;
     line-height: 1.9;
 }
+#startPanel li {
+    margin-bottom: 80x;
+}
+#startClose,
+#startStart {
+    font-family: inherit;
+    color: #2b1d0e;
+    text-shadow: none;
+    background: #e8b05a;
+    border: #e8b05a;
+    cursor: pointer;
+}
+#startClose {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 12px;
+    padding: 6px 10px;
+}
+#startStart {
+    display:block;
+    margin: 24px auto 0;
+    font-size: 12px;
+}

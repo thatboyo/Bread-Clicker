@@ -362,4 +362,18 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     display:block;
     margin: 24px auto 0;
     font-size: 12px;
+    padding: 12px 20px;
+    box-shadow: inset -4px -4px 0 #b9792b,
+                inset 4px 4px 0 #f2c06e;
+                4px 4px 0 #2b1d0e;
+}
+#startClose:hover,
+#startStart:hover {
+    background: #f2c06e;
+}
+#startStart:active {
+    transform: translate(4px, 4px);
+    box-shadow: inset 4px 4px 0 #b9792b,
+                inset -4px -4px #f6d08f,
+                0 0 0 #2b1d0e;
 }

@@ -887,7 +887,6 @@ function resetGame(){
   try { localStorage.removeItem(saveKey); } catch (e) {}
   update();
 }
-//yay! this actually works!
 
 
 

@@ -8,6 +8,8 @@
     <title>Bread Clicker</title>
 </head>
 <body>
+
+
     <h1>Bread Clicker</h1>
     <div id="startOverlay" hidden>
         <div id="startPanel" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
@@ -29,6 +31,9 @@
                 <button id="startBtn">Start!</button>
         </div>
     </div>
+
+
+    <!-- menu button and its contents -->
     <div id="menu">
         <button id="menuBtn" type="button">Menu</button>
         <div id="menuPanel" hidden>
@@ -38,13 +43,11 @@
             <button id="newsBtn" type="button">What's New</button>
             <button id="settingsBtn" type="button">Settings</button>
             <button id="12">Testing Button</button>
-
             <div id="saveArea" hidden>
                 <p>Your save code:</p>
                 <textarea id="saveCode" readonly rows="4"></textarea>
                 <button id="copyBtn" type="button">Copy</button>
             </div>
-
             <div id="loadArea" hidden>
                 <p>Paste your save code:</p>
                 <textarea id="loadCode" rows="4"></textarea>
@@ -53,6 +56,9 @@
             </div>            
         </div>
     </div>
+
+
+    <!-- the crafting div overlay -->
     <div id="craftingOverlay" hidden>
         <div id="craftingPanel" role="dialog" aria-modal="true" aria-labelledby="craftingTitle">
             <button id="close" type="button" aria-label="Close">X</button>
@@ -71,6 +77,29 @@
             </div>
         </div>
     </div>
+
+
+
+    <div id="tradeOverlay" hidden>
+        <div id="tradePanel" role="dialog" aria-modal="true" aria-labelledby="craftingTitle">
+            <button id="close" type="button" aria-label="Close">X</button>
+            <h2 id="tradeTitle">Crafting Table</h2>
+            <div id="tradeBody">
+                <div id="tradeGrid">
+                    <div class="slot"></div><div class="slot"></div><div class="slot"></div>
+                    <div class="slot"></div><div class="slot"></div><div class="slot"></div>
+                </div>
+                <div id="tradeArrow">&rarr;</div>
+                <button id="tradeResult" class="slot" type="button"></button>
+            </div>
+            <div id="tradeUpgrades">
+                <p id="tradingInfo"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- game elements and purchasable items -->
     <div id="game">
         <div id="left">
             <button id="bread" type="button" aria-label="Bake bread">
@@ -107,5 +136,5 @@
 </body>
 </html>
 <!---  about 30 hours into this project, 
-       going so good so far :)
+       its definetly coming along
 -->

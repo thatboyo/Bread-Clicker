@@ -84,11 +84,25 @@
     <div id="tradeOverlay" hidden>
         <div id="tradePanel" role="dialog" aria-modal="true" aria-labelledby="craftingTitle">
             <button id="tradeClose" type="button" aria-label="Close">X</button>
-            <h2 id="tradeTitle">Trading Panel</h2>
+           
+            <div id="tradeLeft">
+                 <h2 id="tradeTitle" class="plate">Trades</h2>
+                <div id="tradeList"></div>
+            </div>  
+
+            <div id="tradeRight">
+                <div id="tradeHeader" class="plate">
+                    <span id="tradeProfession">Farmer - Novice</span>
+                    <div id="tradeXpBar"><div id="xpFill"></div></div>
+                </div>
+            </div>
+
             <div id="tradeBody">
                 <div id="tradeGrid">
-                    <div class="slot"></div><div class="slot"></div>
-                    <div class="slot"></div><div class="slot"></div>
+                    <div class="slot" id="TradeIn1"></div>
+                    <div class="slot" id="TradeIn2"></div>
+                    <div class="slot" id="TradeIn3"></div>
+                    <div class="slot" id="TradeIn4"></div>
                 </div>
                 <div id="tradeArrow">&rarr;</div>
                 <button id="tradeResult" class="slot" type="button"></button>

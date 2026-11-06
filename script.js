@@ -107,25 +107,25 @@ var professions = [
     {name:"Farmer Boost", baseCost:2, unlockAt:0, description:"+1% BPS boost(stackable up to 15%)"},
     {name:"Hay Bale", baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers"},
     {name:"Water Bucket", baseCost:10, unlockAt:0, description:"2x BPS for 60 Seconds"},
-    {name:"Bone Meal", baseCost:25, unlockAt:0, description:""},
-  ]}, /* lowk gotta figure out the other upgrades
+    {name:"Bone Meal", baseCost:25, unlockAt:0, description:"Get 30 minutes of your BPS instantly"},
+  ]}, 
   {name:"Librarian", level:2, trades:[
-    {name:"", baseCost:5, unlockAt:0, description:""},
-    {name:"", baseCost:5, unlockAt:0, description:""},
-    {name:"", baseCost:15, unlockAt:0, description:""},
-    {name:"", baseCost:25, unlockAt:0, description:""},
+    {name:"Lecturn", baseCost:5, unlockAt:0, description:"Every New Villager is 1% cheaper(stackable up to 5%"},
+    {name:"Efficiency", baseCost:5, unlockAt:0, description:"1% of your BPS added to each click(stackable up to 10%"},
+    {name:"Fortune", baseCost:15, unlockAt:0, description:""},
+    {name:"Infinite Knowledge", baseCost:25, unlockAt:0, description:"x5 BPS for 1.5 Minutes"},
   ]},
     {name:"Mason", level:3, trades:[
-    {name:"", baseCost:5, unlockAt:0},
-    {name:"", baseCost:10, unlockAt:0},
-    {name:"", baseCost:15, unlockAt:0},
-    {name:"", baseCost:30, unlockAt:0},
-  ]},
+    {name:"Scaffold", baseCost:10, unlockAt:0, description:"Unlocks buy x10"},
+    {name:"Block of Brick", baseCost:15, unlockAt:0, description:"Buys 1 random item"},
+    {name:"Iron Golem", baseCost:20, unlockAt:0, description:"Every 10 buildings buys 1 for free" },
+    {name:"Stone Cutter", baseCost:30, unlockAt:0, description:"price growth down from 15% by 1%(stackable up to 10%"},
+  ]},/* just gotta figure out cool stuff the cleric can offer
     {name:"Cleric", level:4, trades:[
-    {name:"", baseCost:15, unlockAt:0},
-    {name:"", baseCost:20, unlockAt:0},
-    {name:"", baseCost:25, unlockAt:0},
-    {name:"", baseCost:40, unlockAt:0},
+    {name:"Luck Potion", baseCost:15, unlockAt:0},
+    {name:"Bottle o Enchanting", baseCost:20, unlockAt:0, description:""}, 
+    {name:"Totem of Undying", baseCost:25, unlockAt:0, description:"Refunds your next casino loss"},
+    {name:"COMING SOON", baseCost:40, unlockAt:0, description:"Earns +10% BPS when tab is not in focus"},
   ]},*/
 ]
 

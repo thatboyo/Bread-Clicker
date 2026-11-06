@@ -364,7 +364,7 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     font-size: 12px;
     padding: 12px 20px;
     box-shadow: inset -4px -4px 0 #b9792b,
-                inset 4px 4px 0 #f2c06e;
+                inset 4px 4px 0 #f2c06e,
                 4px 4px 0 #2b1d0e;
 }
 #startClose:hover,
@@ -376,4 +376,142 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     box-shadow: inset 4px 4px 0 #b9792b,
                 inset -4px -4px #f6d08f,
                 0 0 0 #2b1d0e;
+}
+
+
+/* lowk just copy the base from the crafting gui   */
+#right .row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+#right .row > button:first-child {flex: 1;}
+#right #trade {
+    min-width: 0;
+    width: 64px;
+    height: 64px;
+    padding: 0 ;
+    text-align: center;
+    font-size: 24px;
+}
+#tradeOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+#tradePanel {
+    position: relative;
+    width: min(640px, 92vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 24px;
+    background: #91652d;
+    border: 4px solid #2b1d0e;
+    box-shadow: 8px 8px 0#2b1d0e;
+}
+#tradeingTitle {
+    margin:0 0 20px;
+    font-size: 16px;
+}
+#close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-family: inherit;
+    font-size: 12px;
+    color: #2b1d0e;
+    background-color: #e8b05a;
+    border: 4px solid #2b1d0e;
+    padding:  6px 10px;
+    cursor: pointer;
+    text-shadow: none;
+} 
+#tradeBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+#tradeGrid{
+    display: grid;
+    grid-template-columns: repeat(1, 64px);
+    grid-template-rows: repeat(4, 64px);
+    gap: 4px;
+} 
+.slot {
+    background-color: #8b8b8b;
+    border: 4px solid;
+    border-color: #373737 #ffffff #ffffff #373737;
+    box-sizing: border-box;
+}
+#tradeResult {
+    width: 80px;
+    height: 80px;
+}
+#tradeArrow {font-size: 28px;}
+
+#tradeUpgrades {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+#tradeUpgrades button {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button.slot {
+    font-family: inherit;
+    font-size: 18px;
+    color: #2b1d0e;
+    text-shadow: none;
+    padding: 0;
+    cursor: pointer;
+}
+button.slot img {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    image-rendering: pixelated;
+}
+button.slot:not(:disabled):hover {background:#a8a8a8;}
+button.slot:disabled {cursor: not-allowed; background: #cd3232; opacity: 0.35;}
+button.slot.owned {background:  #6fae5f; opacity: 1;}
+
+
+#tradeInfo {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.6;
+    text-align: center;
+}
+#tradeResult {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #2b1d0e;
+    text-shadow: none;
+}
+
+
+
+
+#right #trade img{
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    /* image-rendering: pixelated; */
 }

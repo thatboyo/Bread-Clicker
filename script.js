@@ -35,8 +35,12 @@ var AmazonPriceText = document.getElementById("11");
 var CPS = 0;
 var cool = false;
 var bps = document.getElementById("BPS");
-var password = "Terra123";
+var password = "Pixl123";
 var pass = false;
+var emeraldsPerMinute = 0;
+var xp = 0;
+var villagerLevel = 1;
+var emeralds = 0;
 
 
 breadSprite = document.getElementById("bread"); 
@@ -59,8 +63,9 @@ closeBTN.onclick = close;
 snakeBTN = document.getElementById("10");
 snakeBTN.onclick = snake;
 
-var villageTradeBTN  = document.getElementById("trade")
-villageTradeBTN.onclick = tradeOpen;
+
+var tradeBTN  = document.getElementById("trade")
+tradeBTN.onclick = tradeOpen;
 //for when I add the trading
 
 casinoBTN = document.getElementById("6");
@@ -97,13 +102,44 @@ var magicalBreadMachineOwned = "";
 var amazonsOwned = "";
 
 
-function tradeOpen(){
-  alert("Trading is coming soon! :)")
-  //document.getElementById("tradeOverlay").hidden = false; 
-}  //just setting some small stuff for a future update
+var professions = [
+  {name:"Farmer", level:1, trades:[
+    {name:"Farmer Boost", baseCost:2, unlockAt:0, description:"+1% BPS boost(stackable up to 15%)"},
+    {name:"Hay Bale", baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers"},
+    {name:"Water Bucket", baseCost:10, unlockAt:0, description:"2x BPS for 60 Seconds"},
+    {name:"Bone Meal", baseCost:25, unlockAt:0, description:""},
+  ]}, /* lowk gotta figure out the other upgrades
+  {name:"Librarian", level:2, trades:[
+    {name:"", baseCost:5, unlockAt:0, description:""},
+    {name:"", baseCost:5, unlockAt:0, description:""},
+    {name:"", baseCost:15, unlockAt:0, description:""},
+    {name:"", baseCost:25, unlockAt:0, description:""},
+  ]},
+    {name:"Mason", level:3, trades:[
+    {name:"", baseCost:5, unlockAt:0},
+    {name:"", baseCost:10, unlockAt:0},
+    {name:"", baseCost:15, unlockAt:0},
+    {name:"", baseCost:30, unlockAt:0},
+  ]},
+    {name:"Cleric", level:4, trades:[
+    {name:"", baseCost:15, unlockAt:0},
+    {name:"", baseCost:20, unlockAt:0},
+    {name:"", baseCost:25, unlockAt:0},
+    {name:"", baseCost:40, unlockAt:0},
+  ]},*/
+]
 
+var tradeCloseBTN = document.getElementById("tradeClose")
+tradeCloseBTN.onclick = tradeClose;
+var tradeStuff = document.getElementById("tradeInfo")
+
+function tradeOpen(){
+  alert("Trading is still a WIP:)")
+  document.getElementById("tradeOverlay").hidden = false; 
+  
+}  
 function tradeClose(){
-  //document.getElementById("tradeOverlay").hidden = true;
+  document.getElementById("tradeOverlay").hidden = true;
 }
 
 
@@ -242,7 +278,7 @@ function buildCraftingGrid(){
   slotButtons = [];
 
   tableSlot = craftingResult;
-  tableSlot.onclick =buyTableUpgrade;
+  tableSlot.onclick = buyTableUpgrade;
   
   for (let pos = 0; pos < 9; pos++){
     if (pos == 4){
@@ -340,7 +376,7 @@ const BasePrices = {
 const saveKey = "breadClickerSaveThingy";
 const countKeys =["chungies", "toasters", "bakeries", "robots", "craftingTables", "villagers", "commandBlocks", "magicalBreadMachine", "amazons" ];
 function getState(){
-  return {v:2, bread, chungies, toasters, bakeries, robots, craftingTables, villagers, commandBlocks, magicalBreadMachine, amazons, casinoUnlock,
+  return {v:2, bread, emeralds, chungies, toasters, bakeries, robots, craftingTables, villagers, commandBlocks, magicalBreadMachine, amazons, casinoUnlock,
     upgrades: upgradeList.map(function(u){return u.owned;}), tableLevel
   };
 }
@@ -369,6 +405,7 @@ function loadState(s){
   magicalBreadMachine = s.magicalBreadMachine || 0;
   amazons = s.amazons || 0;
   casinoUnlock = s.casinoUnlock == true;
+  emeralds = (typeof s.emeralds == "number" && isFinite(s.emeralds) && s.emeralds >= 0) ? s.emeralds : 0;
   update();
   return true;
 }
@@ -476,6 +513,7 @@ function clicked() {
 
 //at some point ill have to change this 
 //when i make the bread abbreviation system
+// update: lol i didnt really have to change it at all
 setInterval(function() {
   bread += toasters * 0.10  * upgradeMultiplier(up.toaster);
   bread += chungies * 0.01 * upgradeMultiplier(up.chungie);
@@ -486,6 +524,8 @@ setInterval(function() {
   bread += commandBlocks * 64.00 * upgradeMultiplier(up.commandBlock);
   bread += magicalBreadMachine * 1200.00 * upgradeMultiplier(up.breadMachine);
   bread += amazons * 9999.99;
+  emeralds += villagers * 0.5 / 60 * 0.01;
+  
   update();
 }, 10); 
 
@@ -548,6 +588,9 @@ function update(){
       amazonBPS = ", 999999 BPS,";
     }
     craftingBTN.hidden = craftingTables < 1; 
+    tradeBTN.hidden = villagers < 1; 
+    emeraldsPerMinute = villagers * 0.5; //i might make the rate 0.2 
+    tradeStuff.textContent = ("Emeralds: " + Math.round(emeralds) + " | Emeralds Per Minutes: " + emeraldsPerMinute);
     refreshCraft();
 }
 
@@ -596,7 +639,6 @@ function VillagerBuy(){
     bread = bread - villagersPrice;
     villagers++;
     villagersPrice = villagersPrice * 1.15;
-    
     update();
   }
 }
@@ -873,7 +915,7 @@ function resetGame(){
     upgradeList[i].owned = false;
   }
   tableLevel = 0;
-
+  emeralds = 0;
   
   chungieBPS = toasterBPS = bakeryBPS = robotBPS = craftingTableBPS = "";
   villagerBPS = commandBlockBPS = magicalBreadMachineBPS = amazonBPS = "";

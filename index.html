@@ -18,16 +18,16 @@
             <p id="startVersion"></p>
             <h3>How to Play</h3>
             <ul>
-                <li>Clickon the bread to get bread, each bread sells for 1 dollar</li>
+                <li>Click on the bread to get bread, each bread sells for 1 dollar</li>
                 <li>Spend Bread on helpers to the right, they can bake bread automatically for you, </li>
                 <li>Buy a crafting Table, villager(WIP), or command block(WIP) for helpful upgrades</li>
                 <li>Use the menu to save and load, or transfer your save code to a new device </li>
             </ul>
 
-            <h3>Version 2.75</h3>
+            <h3>Version 2.85</h3>
             <ul id="startChanges"></ul>
                 <li>Abbreviation System</li>
-                <li>Villager Trading Logic(coming soon)</li>
+                <li>Villager Trading (coming soon)</li>
                 <button id="startBtn">Start!</button>
         </div>
     </div>
@@ -82,18 +82,18 @@
 
     <div id="tradeOverlay" hidden>
         <div id="tradePanel" role="dialog" aria-modal="true" aria-labelledby="craftingTitle">
-            <button id="close" type="button" aria-label="Close">X</button>
-            <h2 id="tradeTitle">Crafting Table</h2>
+            <button id="tradeClose" type="button" aria-label="Close">X</button>
+            <h2 id="tradeTitle">Trading Panel</h2>
             <div id="tradeBody">
                 <div id="tradeGrid">
-                    <div class="slot"></div><div class="slot"></div><div class="slot"></div>
-                    <div class="slot"></div><div class="slot"></div><div class="slot"></div>
+                    <div class="slot"></div><div class="slot"></div>
+                    <div class="slot"></div><div class="slot"></div>
                 </div>
                 <div id="tradeArrow">&rarr;</div>
                 <button id="tradeResult" class="slot" type="button"></button>
             </div>
             <div id="tradeUpgrades">
-                <p id="tradingInfo"></p>
+                <p id="tradeInfo"></p>
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@
     <div id="game">
         <div id="left">
             <button id="bread" type="button" aria-label="Bake bread">
-            <img src="download.jpeg" alt="Bread"></button>
+            <img src="sprites/download.jpeg" alt="Bread"></button>
             <p id="amount">Bread Baked: </p>
             <p id="BPS">Bread per Second: </p>
         </div>
@@ -121,7 +121,9 @@
             <button id="6">Gamble at a Casino (working but WIP)</button>
             <div class="row">
                 <button id="7">Hire a Villager</button>
-                <button id="trade" type ="button" aria-label="Open Villager Trading" hidden>💲</button>
+                <button id="trade" type="button" aria-label="Trade" hidden>
+                    <img src="sprites/emerald.png" alt="Emerald">
+                </button>
             </div>
             <button id="8">Code a Command Block</button>
             <button id="9">Invent a Magical Bread Machine</button>
@@ -136,5 +138,5 @@
 </body>
 </html>
 <!---  about 30 hours into this project, 
-       its definetly coming along
+       its definetly coming along quite nicely :)
 -->

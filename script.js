@@ -234,7 +234,7 @@ function upgradesOwned(){
   return n;
 }
 function tableMultiplier() {
-  return 2 * tableLevel
+  return Math.pow(2, tableLevel + 1);
 }
 function upgradeMultiplier(i) {
 return upgradeList[i].owned ? tableMultiplier() : 1;

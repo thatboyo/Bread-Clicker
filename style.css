@@ -379,21 +379,6 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
 }
 
 
-/* lowk just copy the base from the crafting gui   */
-#right .row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-#right .row > button:first-child {flex: 1;}
-#right #trade {
-    min-width: 0;
-    width: 64px;
-    height: 64px;
-    padding: 0 ;
-    text-align: center;
-    font-size: 24px;
-}
 #tradeOverlay {
     position: fixed;
     inset: 0;
@@ -401,25 +386,24 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.6);
+    background:  rgba(0, 0, 0, 0.6);
 }
-
 #tradePanel {
     position: relative;
-    width: min(640px, 92vw);
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+    width: min(760px, 94vw);
     max-height: 90vh;
     overflow-y: auto;
     box-sizing: border-box;
-    padding: 24px;
+    padding: 56px 24px 24px;
     background: #91652d;
     border: 4px solid #2b1d0e;
-    box-shadow: 8px 8px 0#2b1d0e;
+    box-shadow: 8px 8px 0 #2b1d0e;
 }
-#tradeingTitle {
-    margin:0 0 20px;
-    font-size: 16px;
-}
-#close {
+
+#close, #tradeClose {
     position: absolute;
     top: 12px;
     right: 12px;
@@ -428,90 +412,78 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     color: #2b1d0e;
     background-color: #e8b05a;
     border: 4px solid #2b1d0e;
-    padding:  6px 10px;
+    padding: 6px 10px;
     cursor: pointer;
     text-shadow: none;
-} 
-#tradeBody {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    margin-bottom: 24px;
 }
-#tradeGrid{
-    display: grid;
-    grid-template-columns: repeat(1, 64px);
-    grid-template-rows: repeat(4, 64px);
-    gap: 4px;
-} 
-.slot {
-    background-color: #8b8b8b;
-    border: 4px solid;
-    border-color: #373737 #ffffff #ffffff #373737;
-    box-sizing: border-box;
-}
-#tradeResult {
-    width: 80px;
-    height: 80px;
-}
-#tradeArrow {font-size: 28px;}
+#close:hover, #tradeClose:hover { background: #f2c06e;}
 
-#tradeUpgrades {
+.plate {
+    margin: 0 0 12px;
+    padding: 8px 10px;
+    font-size: 12px;
+    text-align: center;
+    color: #2b1d0e;
+    text-shadow: none;
+    background: #f6d08f;
+    border: 4px solid #2b1d0e;
+    box-shadow: inset -4px -4px 0 #d9195a;
+}
+
+#tradeLeft {min-width: 0;}
+#tradeList {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-}
-#tradeUpgrades button {
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
+    gap: 8px;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 8px;
+    background: #6b4a21;
+    border: 4px solid;
+    border-color: #373737 #ffffff #ffffff #373737 ;
 }
 
-button.slot {
+.trade-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
     font-family: inherit;
-    font-size: 18px;
-    color: #2b1d0e;
+    color: #8b8b8b;
     text-shadow: none;
-    padding: 0;
+    background: #8b8b8b;
+    border: 4px solid #2b1d0e;
     cursor: pointer;
 }
-button.slot img {
-    display: block;
-    width: 40px;
-    height: 40px;
-    margin: auto;
-    image-rendering: pixelated;
-}
-button.slot:not(:disabled):hover {background:#a8a8a8;}
-button.slot:disabled {cursor: not-allowed; background: #cd3232; opacity: 0.35;}
-button.slot.owned {background:  #6fae5f; opacity: 1;}
+.trade-row:hover:not(:disabled) {background: #a8a8a8;}
+.trade-row::selection {outline: 4px solid #ffffff; outline-offset: 8px ;}
+.trade-row:disabled {cursor: not-allowed; opacity: 0.55;}
+.trade-row .arrow { margin-left: auto; font-size: 18px;}
 
-
-#tradeInfo {
-    margin: 0;
-    font-size: 10px;
-    line-height: 1.6;
-    text-align: center;
-}
-#tradeResult {
-    width: 80px;
-    height: 80px;
+.trade-row.slot {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    color: #2b1d0e;
-    text-shadow: none;
+    font-size: 10px;
+}
+.trade-row .slot img {width: 28px; height: 28px; image-rendering: pixelated;}
+
+.count {
+    position: absolute;
+    right: 2px;
+    bottom: 0;
+    font-size: 10px;
+    color: #ffffff;
+    text-shadow: 2px 2px 0 #000;
 }
 
-
-
-
-#right #trade img{
+#right  #trade img {
     display: block;
     width: 40px;
     height: 40px;
     margin: auto;
-    /* image-rendering: pixelated; */
 }

@@ -128,6 +128,17 @@ var professions = [
       {name:"Brewing Stand", baseCost:40, unlockAt:0, description:"Get 1 hour of BPS instantly"},
   ]},
 ]
+var selectedProfession = 1;
+var selectedTrade = 1
+
+function buildTradeList() {
+  var list = document.getElementById("tradeList");
+  list.innerHTML = "";
+  var row = document.createElement("button");
+  row.type = "button";
+  row.className = "trade-row"
+}
+
 
 var tradeCloseBTN = document.getElementById("tradeClose")
 tradeCloseBTN.onclick = tradeClose;

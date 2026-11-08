@@ -105,28 +105,28 @@ var amazonsOwned = "";
 var professions = [
   {name:"Farmer", level:1, trades:[
     {name:"Farmer Boost", baseCost:2, unlockAt:0, description:"+1% BPS boost(stackable up to 15%)"},
-    {name:"Hay Bale", baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers"},
-    {name:"Water Bucket", baseCost:10, unlockAt:0, description:"2x BPS for 60 Seconds"},
-    {name:"Bone Meal", baseCost:25, unlockAt:0, description:"Get 30 minutes of your BPS instantly"},
+      {name:"Hay Bale", baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers"},
+      {name:"Water Bucket", baseCost:10, unlockAt:0, description:"2x BPS for 60 Seconds"},
+      {name:"Bone Meal", baseCost:25, unlockAt:0, description:"Get 30 minutes of your BPS instantly"},
   ]}, 
   {name:"Librarian", level:2, trades:[
-    {name:"Lecturn", baseCost:5, unlockAt:0, description:"Every New Villager is 1% cheaper(stackable up to 5%"},
-    {name:"Efficiency", baseCost:5, unlockAt:0, description:"1% of your BPS added to each click(stackable up to 10%"},
-    {name:"Fortune", baseCost:15, unlockAt:0, description:""},
-    {name:"Infinite Knowledge", baseCost:25, unlockAt:0, description:"x5 BPS for 1.5 Minutes"},
+    {name:"Lecturn", baseCost:10, unlockAt:0, description:"Every New Villager is 1% cheaper(stackable up to 5%"},
+      {name:"Efficiency", baseCost:15, unlockAt:0, description:"1% of your BPS added to each click(stackable up to 10%"},
+      {name:"Fortune", baseCost:20, unlockAt:0, description:"Every 10 buildings of one kind gets 1 for free"},
+      {name:"Infinite Knowledge", baseCost:25, unlockAt:0, description:"x5 BPS for 1.5 Minutes"},
   ]},
     {name:"Mason", level:3, trades:[
-    {name:"Scaffold", baseCost:10, unlockAt:0, description:"Unlocks buy x10"},
-    {name:"Block of Brick", baseCost:15, unlockAt:0, description:"Buys 1 random item"},
-    {name:"Iron Golem", baseCost:20, unlockAt:0, description:"Every 10 buildings buys 1 for free" },
-    {name:"Stone Cutter", baseCost:30, unlockAt:0, description:"price growth down from 15% by 1%(stackable up to 10%"},
-  ]},/* just gotta figure out cool stuff the cleric can offer
+      {name:"Scaffold", baseCost:10, unlockAt:0, description:"Unlocks buy x10"},
+      {name:"Block of Brick", baseCost:15, unlockAt:0, description:"Buys 1 random item"},
+      {name:"Iron Golem", baseCost:20, unlockAt:0, description:"Every 10 buildings buys 1 for free" },
+      {name:"Stone Cutter", baseCost:30, unlockAt:0, description:"price growth down from 15% by 1%(stackable up to 10%"},
+  ]},
     {name:"Cleric", level:4, trades:[
-    {name:"Luck Potion", baseCost:15, unlockAt:0},
-    {name:"Bottle o Enchanting", baseCost:20, unlockAt:0, description:""}, 
-    {name:"Totem of Undying", baseCost:25, unlockAt:0, description:"Refunds your next casino loss"},
-    {name:"COMING SOON", baseCost:40, unlockAt:0, description:"Earns +10% BPS when tab is not in focus"},
-  ]},*/
+      {name:"Luck Potion", baseCost:20, unlockAt:0, description:"Earns 10% BPS when tab not in focus(stackable up to 50%"},
+      {name:"Bottle o Enchanting", baseCost:20, unlockAt:0, description:"Every day get a welcome back gift"}, 
+      {name:"Totem of Undying", baseCost:25, unlockAt:0, description:"Refunds your next casino loss"},
+      {name:"Brewing Stand", baseCost:40, unlockAt:0, description:"Get 1 hour of BPS instantly"},
+  ]},
 ]
 
 var tradeCloseBTN = document.getElementById("tradeClose")
@@ -589,7 +589,7 @@ function update(){
     }
     craftingBTN.hidden = craftingTables < 1; 
     tradeBTN.hidden = villagers < 1; 
-    emeraldsPerMinute = villagers * 0.5; //i might make the rate 0.2 
+    emeraldsPerMinute = villagers * 0.2; //i might make the rate 0.2 
     tradeStuff.textContent = ("Emeralds: " + Math.round(emeralds) + " | Emeralds Per Minutes: " + emeraldsPerMinute);
     refreshCraft();
 }

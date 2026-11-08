@@ -186,6 +186,14 @@ h1{
     text-align: center;
     font-size: 24px;
 }
+#right  #craft img {
+    display: block;
+    width: 56.5px;
+    height: 56.5px;
+    margin: auto;
+    image-rendering: pixelated;
+}
+
 #craftingOverlay {
     position: fixed;
     inset: 0;
@@ -481,9 +489,80 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     text-shadow: 2px 2px 0 #000;
 }
 
+#tradeRight {min-width: 0;}
+#tradeHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+#tradeXpBar {
+    height: 12px;
+    background: #2b1d0e;
+    border: 3px solid #2b1d0e;
+    box-sizing: border-box;
+}
+#tradeXpFill {
+    height: 100%;
+    width: 0%;
+    background: repeating-linear-gradient(
+        to right, #7fd13b 0 6px, #5aa52a 6px 12px);
+    transition: width 0.2s steps(8);
+}
+
+
+#tradeBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: #6b4a21;
+    border: 4px sold #2b1d0e;
+} 
+#tradeGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 64px);
+    grid-template-rows: 64px ;
+    gap: 8px;
+}
+#tradeGrid .slot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+#tradeArrow {font-size: 28px;}
+#tradeResult {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #2b1d0e;
+    text-shadow: none;
+}
+#trade
+
+
+
+
+#right .row > button:first-child {flex: 1;}
+#right #trade {
+    min-width: 0;
+    width: 64px;
+    height: 64px;
+    padding: 0 ;
+    text-align: center;
+    font-size: 24px;
+}
 #right  #trade img {
     display: block;
-    width: 40px;
-    height: 40px;
+    width: 56.5px;
+    height: 56.5px;
     margin: auto;
-}
+    image-rendering: pixelated;
+} 

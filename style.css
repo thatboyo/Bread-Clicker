@@ -84,7 +84,7 @@ h1{
     min-width: 340px;
     cursor: pointer;
     box-shadow: inset -4px -4px 0 #b9792b,
-        inset 4px 4px - #f6d08f,
+        inset 4px 4px 0 #f6d08f,
         4px 4px 0 #2b1d0e; 
 }
 #right button:hover {
@@ -435,7 +435,7 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     text-shadow: none;
     background: #f6d08f;
     border: 4px solid #2b1d0e;
-    box-shadow: inset -4px -4px 0 #d9195a;
+    box-shadow: inset -4px -4px 0 #d9a95a;
 }
 
 #tradeLeft {min-width: 0;}
@@ -457,18 +457,18 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     gap: 10px;
     padding: 6px 10px;
     font-family: inherit;
-    color: #8b8b8b;
+    color: #2b1d0e;
     text-shadow: none;
     background: #8b8b8b;
     border: 4px solid #2b1d0e;
     cursor: pointer;
 }
 .trade-row:hover:not(:disabled) {background: #a8a8a8;}
-.trade-row::selection {outline: 4px solid #ffffff; outline-offset: 8px ;}
+.trade-row.selected {outline: 4px solid #ffffff; outline-offset: 8px ;}
 .trade-row:disabled {cursor: not-allowed; opacity: 0.55;}
 .trade-row .arrow { margin-left: auto; font-size: 18px;}
 
-.trade-row.slot {
+.trade-row .slot {
     position: relative;
     width: 44px;
     height: 44px;
@@ -518,7 +518,7 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     padding: 16px;
     margin-bottom: 16px;
     background: #6b4a21;
-    border: 4px sold #2b1d0e;
+    border: 4px solid #2b1d0e;
 } 
 #tradeGrid {
     display: grid;
@@ -564,7 +564,7 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     box-shadow: inset -4px -4px 0 #b9792b, inset 4px 4px 0 #f6d08f;
 
 }
-.trade-row:hover:not(:disabled) {background: #f2c06e;}
+.trade-tab:hover:not(:disabled) {background: #f2c06e;}
 .trade-tab.active {background: #f6d08f; transform:  translateY(-4px);}
 .trade-tab:disabled {
     background: #8a7352;
@@ -581,7 +581,7 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
 } 
 @media (max-width:640px) {
     #tradePanel {grid-template-columns: 1fr;}
-    #tradeLise {max-height: 25vh;}
+    #tradeList {max-height: 25vh;}
 } 
 
 

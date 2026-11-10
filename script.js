@@ -41,6 +41,7 @@ var emeraldsPerMinute = 0;
 var xp = 0;
 var villagerLevel = 1;
 var emeralds = 0;
+var version = "2.85"
 
 
 breadSprite = document.getElementById("bread"); 
@@ -171,14 +172,15 @@ function startClose(){
 }
 
 function startBox(){
-  var seen = false;
-  try {seen = localStorage.getItem(startSeenKey) == "true"; } catch(e) {}
+  var seenVersion = null;
+  try {seenVersion = localStorage.getItem(startSeenKey); } catch(e) {}
+  if (seenVersion == version) return;
   //idk how to do promises so i had to look this up, 
   //should work after i add seen to the localstorage saving
-  if (seen) return;
+
 
   startOpen();
-  try {localStorage.setItem(startSeenKey, "true"); } catch (e) {};
+  try {localStorage.setItem(startSeenKey, version); } catch (e) {};
 }
 
 
@@ -385,6 +387,7 @@ const BasePrices = {
 };
 //hopefully this will work
 const saveKey = "breadClickerSaveThingy";
+const startSeenKey = "breadClickerStartSeen";
 const countKeys =["chungies", "toasters", "bakeries", "robots", "craftingTables", "villagers", "commandBlocks", "magicalBreadMachine", "amazons" ];
 function getState(){
   return {v:2, bread, emeralds, chungies, toasters, bakeries, robots, craftingTables, villagers, commandBlocks, magicalBreadMachine, amazons, casinoUnlock,
@@ -816,7 +819,7 @@ function gambling()  {
 }
 
 function snake(){
-  alert("The Snake minigame will be coming in version 4.0, \n Current version 2.75 ")
+  alert("The Snake minigame will be coming in version 4.0, \n Current version: " + version);
 }
 
 
@@ -900,7 +903,8 @@ function Afforability(){
 }
 
 loadFromLocalStorage();
-update()
+update();
+startBox();
 
 
 

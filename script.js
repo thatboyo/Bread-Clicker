@@ -53,6 +53,10 @@ var buyAmount = 1;
 var baseCPS = 0;
 var levelNames = ["Novice", "Apprentice", "Journeyman", "Expert", "Master" ];
 var levels = [0, 20, 50, 100, 200,]
+var percentBoost = 0;
+var farmerBoostOwned = 0;
+var haybaleOwned = false;
+var isOnCooldown = false;
 
 var lastTick = Date.now();
 var tradeMsg = "";
@@ -135,7 +139,7 @@ function commandOpen(){
 var professions = [
   {name:"Farmer", level:0, trades:[
     {name:"Farmer Boost", type:"stack", max:15, costGrowth:1.25,  baseCost:2, unlockAt:0, description:"+1% BPS boost(stackable up to 15%)"},
-      {name:"Hay Bale",type:"once", max:1, baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers"},
+      {name:"Hay Bale",type:"once", max:1, baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers bought(up to 20%)"},
       {name:"Water Bucket",type:"timed", duration:60, cooldown:300,multi:2, costGrowth:1.25, baseCost:10, unlockAt:0, description:"2x BPS for 60 Seconds"},
       {name:"Bone Meal", type:"instant", max:15, costGrowth:1.25, baseCost:25, unlockAt:0, description:"Get 30 minutes of your BPS instantly"},
   ]}, 
@@ -158,6 +162,42 @@ var professions = [
       {name:"Brewing Stand", type:"instant", seconds:3600, costGrowth:1.5, resetMs:3600000, baseCost:40, unlockAt:0, description:"Get 1 hour of BPS instantly"},
   ]},
 ];
+function farmerBoost(){
+  if (emeralds >= professions[0].trades[0].baseCost && farmerBoostOwned <= professions[0].trades[0].max) {
+    farmerBoostOwned++;
+    emeralds -= professions[0].trades[0].baseCost;
+  } else {
+    alert("You can't afford that silly!");
+  }
+}
+function haybale(){
+  if (emeralds >= professions[0].trades[1].baseCost && !haybaleOwned) {
+    haybaleOwned = true;
+    var villagersHaybale = villagers %  10 == 0;
+    percentBoost *= villagersHaybale / 10
+  } else {
+    alert("You can't afford that silly!");
+  }
+}
+function waterBucket(){
+  if (emeralds >= professions[0].trades[2].baseCost && !isOnCooldown) {
+    emeralds -= professions[0].trades[2].baseCost;
+    multi = 2;
+    isOnCooldown = true;
+    setTimeout(() => {
+      multi = 1;
+      isOnCooldown = false;
+    }, professions[0].trades[2].cooldown * 1000);
+    
+    emeralds -= professions[0].trades[2].baseCost;
+  } else if (isOnCooldown) {
+    alert("Water bucket is cooldown! Check back later!")
+} else {
+    alert("You can't afford that silly!");
+  }
+}
+
+
 
 var selectedProfession = 0;
 var selectedTrade = 0;
@@ -179,6 +219,18 @@ function lvl(id) {
 function hasTrade(id) {
   return tradeState[id].level >0;
 }
+
+var buildings = [
+  {name: "Chungie", count:"chungies", base:"chungie"},
+  {name: "Toaster", count:"toasters", base:"toaster"},
+  {name: "Bakery", count:"bakeries", base:"bakery"},
+  {name: "Robot", count:"robots", base:"robot"},
+  {name: "Crafting Table", count:"craftingTables", base:"craftingTable"},
+  {name: "Villager", count:"villagers", base:"villagers"},
+  {name: "Command Block", count:"commandBlocks", base:"commandBlocks"},
+  {name: "Magic Bread Machine", count:"magicalBreadMachine", base:"magicalBreadMachine"},
+  {name: "Amazon", count:"amazons", base:"amazon"}
+]
 
  
 function buildTradeList() {
@@ -588,6 +640,7 @@ setInterval(function() {
   bread += magicalBreadMachine * 1200.00 * upgradeMultiplier(up.breadMachine);
   bread += amazons * 9999.99;
   emeralds += villagers * 0.5 / 60 * 0.01;
+  bread += percentBoost;
   
   update();
 }, 10); 
@@ -656,6 +709,10 @@ function update(){
     emeraldsPerMinute = villagers * 0.2; //i might make the rate 0.2 
     tradeStuff.textContent = ("Emeralds: " + Math.round(emeralds) + " | Emeralds Per Minutes: " + emeraldsPerMinute);
     refreshCraft();
+    if (farmerBoostOwned >= 1){
+      percentBoost = bps / 100;
+      percentBoost * farmerBoostOwned; 
+    }
 }
 
 function chungieBuy(){

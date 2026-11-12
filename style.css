@@ -211,7 +211,7 @@ h1{
     overflow-y: auto;
     box-sizing: border-box;
     padding: 24px;
-    background: #91652d;
+    background: #91652d url("sprites/craftingBgnd.png") center / 100% 100% no-repeat;
     border: 4px solid #2b1d0e;
     box-shadow: 8px 8px 0#2b1d0e;
 }
@@ -235,8 +235,8 @@ h1{
 #craftingBody {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 24px;
+    margin-left: 77px;
     margin-bottom: 24px;
 }
 #craftingGrid{
@@ -246,16 +246,16 @@ h1{
     gap: 4px;
 } 
 .slot {
-    background-color: #8b8b8b;
+    background-color: #c66a3f;
     border: 4px solid;
-    border-color: #373737 #ffffff #ffffff #373737;
+    border-color: #745a46 #824002 #824002 #745a46;
     box-sizing: border-box;
 }
 #craftingResult {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
 }
-#craftingArrow {font-size: 28px;}
+#craftingArrow {font-size: 55px;}
 
 #craftingUpgrades {
     display: flex;
@@ -283,7 +283,7 @@ button.slot img {
     margin: auto;
     image-rendering: pixelated;
 }
-button.slot:not(:disabled):hover {background:#a8a8a8;}
+button.slot:not(:disabled):hover {background:#e7b964;}
 button.slot:disabled {cursor: not-allowed; background: #cd3232; opacity: 0.6;}
 button.slot.owned {background:  #6fae5f; opacity: 1;}
 

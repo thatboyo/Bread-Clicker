@@ -101,6 +101,12 @@ amazonBTN = document.getElementById("11");
 amazonBTN.onclick = amazonBuy;
 testingBTN = document.getElementById("12");
 testingBTN.onclick = testingBtn;
+var settingsBTN = document.getElementById("settingsBtn");
+settingsBTN.onclick = settings;
+
+function settings(){
+  alert("Settings is coming in Version 3.5 | Current Version: " + version);  
+}
 
 var chungieBPS = "";
 var toasterBPS = "";

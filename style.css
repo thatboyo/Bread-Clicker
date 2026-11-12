@@ -351,7 +351,7 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     margin-bottom: 80x;
 }
 #startClose,
-#startStart {
+#startBtn {
     font-family: inherit;
     color: #2b1d0e;
     text-shadow: none;
@@ -366,7 +366,7 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     font-size: 12px;
     padding: 6px 10px;
 }
-#startStart {
+#startBtn {
     display:block;
     margin: 24px auto 0;
     font-size: 12px;

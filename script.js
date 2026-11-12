@@ -161,7 +161,7 @@ var selectedTrade = 0;
 function newTradeState(){ return {
   level:0, buys:0, lastBuy:0, endsAt:0, readyAt:0}; }
 var tradeState = {};
-vae allTrades = [];
+var allTrades = [];
 professions.forEach(function(p){
   p.trades.forEach(function(t){
     tradeState[t.id] = newTradeState(); allTrades.push(t); });

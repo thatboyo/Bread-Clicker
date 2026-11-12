@@ -41,8 +41,18 @@ var emeraldsPerMinute = 0;
 var xp = 0;
 var villagerLevel = 1;
 var emeralds = 0;
-var version = "2.85"
+var version = "2.90"
+document.getElementById("ver").textContent = "Version: " + version;
 
+var emeraldRate =  0.2;
+var emeraldsSpent = 0;
+var purchaseCount = 0;
+var lastGift = 0;
+varTotemCharge = 0;
+var buyAmount = 1;
+var baseCPS = 0;
+var levelNames = ["Novice", "Apprentice", "Journeyman", "Expert", "Master" ];
+var levels = [0, 20, 50, 100, 200,]
 
 breadSprite = document.getElementById("bread"); 
 breadSprite.onclick = clicked;
@@ -65,8 +75,10 @@ snakeBTN = document.getElementById("10");
 snakeBTN.onclick = snake;
 
 
-var tradeBTN  = document.getElementById("trade")
+var tradeBTN  = document.getElementById("trade");
 tradeBTN.onclick = tradeOpen;
+var commandBTN = document.getElementById("command");
+commandBTN.onclick = commandOpen;
 //for when I add the trading
 
 casinoBTN = document.getElementById("6");
@@ -102,13 +114,17 @@ var commandBlocksOwned = "";
 var magicalBreadMachineOwned = "";
 var amazonsOwned = "";
 
+function commandOpen(){
+  alert("command block upgrades are coming in version 3.5, \n current version: " + version );
+}
+
 
 var professions = [
   {name:"Farmer", level:0, trades:[
-    {name:"Farmer Boost", baseCost:2, unlockAt:0, description:"+1% BPS boost(stackable up to 15%)"},
-      {name:"Hay Bale", baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers"},
-      {name:"Water Bucket", baseCost:10, unlockAt:0, description:"2x BPS for 60 Seconds"},
-      {name:"Bone Meal", baseCost:25, unlockAt:0, description:"Get 30 minutes of your BPS instantly"},
+    {name:"Farmer Boost", type:"stack", max:15, costGrowth:1.25,  baseCost:2, unlockAt:0, description:"+1% BPS boost(stackable up to 15%)"},
+      {name:"Hay Bale",type:"once", max:1, baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers"},
+      {name:"Water Bucket",type:"timed", duration:60, cooldown:300,multi:2, costGrowth:1.25, baseCost:10, unlockAt:0, description:"2x BPS for 60 Seconds"},
+      {name:"Bone Meal", type:"instant", max:15, costGrowth:1.25, baseCost:25, unlockAt:0, description:"Get 30 minutes of your BPS instantly"},
   ]}, 
   {name:"Librarian", level:1, trades:[
     {name:"Lecturn", baseCost:10, unlockAt:0, description:"Every New Villager is 1% cheaper(stackable up to 5%"},
@@ -119,7 +135,7 @@ var professions = [
     {name:"Mason", level:2, trades:[
       {name:"Scaffold", baseCost:10, unlockAt:0, description:"Unlocks buy x10"},
       {name:"Block of Brick", baseCost:15, unlockAt:0, description:"Buys 1 random item"},
-      {name:"Iron Golem", baseCost:20, unlockAt:0, description:"Every 10 buildings buys 1 for free" },
+      {name:"Iron Golem", baseCost:20, unlockAt:0, description:"Each new villager you buy gives +0.5% BPS Boost up to 10% " },
       {name:"Stone Cutter", baseCost:30, unlockAt:0, description:"price growth down from 15% by 1%(stackable down to 10%"},
   ]},
     {name:"Cleric", level:3, trades:[
@@ -603,6 +619,7 @@ function update(){
     }
     craftingBTN.hidden = craftingTables < 1; 
     tradeBTN.hidden = villagers < 1; 
+    commandBTN.hidden = commandBlocks < 1;
     emeraldsPerMinute = villagers * 0.2; //i might make the rate 0.2 
     tradeStuff.textContent = ("Emeralds: " + Math.round(emeralds) + " | Emeralds Per Minutes: " + emeraldsPerMinute);
     refreshCraft();
@@ -650,7 +667,7 @@ function craftingTableBuy(){
 }
 function VillagerBuy(){
   if (bread >= villagersPrice){
-    bread = bread - villagersPrice;
+    bread -= villagersPrice;
     villagers++;
     villagersPrice = villagersPrice * 1.15;
     update();
@@ -832,7 +849,6 @@ function secretPassword(){
     pass = true;
   } else {
     alert("Wrong Password Buddy!")
-    return;
   }
 }
 function testingBtn(){

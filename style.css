@@ -602,3 +602,21 @@ button.slot.owned {background:  #6fae5f; opacity: 1;}
     margin: auto;
     image-rendering: pixelated;
 } 
+
+
+#right .row > button:first-child {flex: 1;}
+#right #command {
+    min-width: 0;
+    width: 64px;
+    height: 64px;
+    padding: 0 ;
+    text-align: center;
+    font-size: 24px;
+}
+#right  #command img {
+    display: block;
+    width: 56.5px;
+    height: 56.5px;
+    margin: auto;
+    image-rendering: pixelated;
+} 

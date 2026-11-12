@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="sprites/icon2.png">
+    
+  <!--  <script src="trades.js" defer></script> -->
     <script src="script.js" defer></script>
     <title>Bread Clicker</title>
 </head>
@@ -25,10 +27,11 @@
                 <li>Use the menu to save and load, or transfer your save code to a new device </li>
             </ul>
 
-            <h3>Version 2.85</h3>
+            <h3 id="ver">Version 2.95</h3>
             <ul id="startChanges">
                 <li>Abbreviation System</li>
-                <li>Villager Trading (coming soon)</li>
+                <li>New icons</li>
+                <li>Villager Trading Button(WIP)</li>
             </ul>
                 <button id="startBtn">Start!</button>
         </div>
@@ -123,6 +126,7 @@
             <img src="sprites/download.jpeg" alt="Bread"></button>
             <p id="amount">Bread Baked: </p>
             <p id="BPS">Bread per Second: </p>
+            <button id="buyAmountBtn" type="button" hidden>Buy x1</button>
         </div>
         <div id="divider">
         </div>
@@ -144,7 +148,12 @@
                     <img src="sprites/emerald.png" alt="Emerald">
                 </button>
             </div>
-            <button id="8">Code a Command Block</button>
+            <div class="row">
+                <button id="8">Encode a Command Block</button>
+                <button id="command" type="button" aria-label="commandBlock" hidden>
+                    <img src="sprites/commandBlock.png" alt="commandB">
+                </button>
+            </div>
             <button id="9">Invent a Magical Bread Machine</button>
             <button id="10">Play Snake (MiniGame) (WIP)</button>
             <button id="11">Buy Amazon! (Your Goal!)</button>

@@ -41,18 +41,25 @@ var emeraldsPerMinute = 0;
 var xp = 0;
 var villagerLevel = 1;
 var emeralds = 0;
-var version = "2.90"
+var version = "2.95"
 document.getElementById("ver").textContent = "Version: " + version;
 
 var emeraldRate =  0.2;
 var emeraldsSpent = 0;
 var purchaseCount = 0;
 var lastGift = 0;
-varTotemCharge = 0;
+var TotemCharge = 0;
 var buyAmount = 1;
 var baseCPS = 0;
 var levelNames = ["Novice", "Apprentice", "Journeyman", "Expert", "Master" ];
 var levels = [0, 20, 50, 100, 200,]
+
+var lastTick = Date.now();
+var tradeMsg = "";
+var tradeMsgUntil = 0;
+var day_ms = 24 * 60 * 60 * 1000;
+
+
 
 breadSprite = document.getElementById("bread"); 
 breadSprite.onclick = clicked;
@@ -127,27 +134,47 @@ var professions = [
       {name:"Bone Meal", type:"instant", max:15, costGrowth:1.25, baseCost:25, unlockAt:0, description:"Get 30 minutes of your BPS instantly"},
   ]}, 
   {name:"Librarian", level:1, trades:[
-    {name:"Lecturn", baseCost:10, unlockAt:0, description:"Every New Villager is 1% cheaper(stackable up to 5%"},
-      {name:"Efficiency", baseCost:15, unlockAt:0, description:"1% of your BPS added to each click(stackable up to 10%"},
-      {name:"Fortune", baseCost:20, unlockAt:0, description:"Every 10 buildings of one kind gets 1 for free"},
-      {name:"Infinite Knowledge", baseCost:25, unlockAt:0, description:"x5 BPS for 1.5 Minutes"},
+    {name:"Lecturn", baseCost:10, type:"stack", max:5, costGrowth:1.5, unlockAt:0, description:"Every New Villager is 1% cheaper(stackable up to 5%"},
+      {name:"Efficiency", baseCost:15, type:"stack", max:10, costGrowth:1.3, unlockAt:0, description:"1% of your BPS added to each click(stackable up to 10%"},
+      {name:"Fortune", type:"once", baseCost:20, unlockAt:0, description:"Every 10 buildings of one kind gets 1 for free"},
+      {name:"Infinite Knowledge", type:"timed", duration:90, cooldown:600, mult:5, baseCost:25, unlockAt:0, description:"x5 BPS for 1.5 Minutes"},
   ]},
     {name:"Mason", level:2, trades:[
-      {name:"Scaffold", baseCost:10, unlockAt:0, description:"Unlocks buy x10"},
-      {name:"Block of Brick", baseCost:15, unlockAt:0, description:"Buys 1 random item"},
-      {name:"Iron Golem", baseCost:20, unlockAt:0, description:"Each new villager you buy gives +0.5% BPS Boost up to 10% " },
-      {name:"Stone Cutter", baseCost:30, unlockAt:0, description:"price growth down from 15% by 1%(stackable down to 10%"},
+      {name:"Scaffold", type:"once", baseCost:10, unlockAt:0, description:"Unlocks buy x10"},
+      {name:"Block of Brick", type:"random", costGrowth:1.25, resetMs:3600000, baseCost:15, unlockAt:0, description:"Buys 1 random item you've bought before"},
+      {name:"Iron Golem", type:"once", baseCost:20, unlockAt:0, description:"Each new villager you buy gives +0.5% BPS Boost up to 10% " },
+      {name:"Stone Cutter", type:"stack", max:5, costGrowth:1.5, baseCost:30, unlockAt:0, description:"price growth down from 15% by 1%(stackable down to 10%"},
   ]},
     {name:"Cleric", level:3, trades:[
-      {name:"Luck Potion", baseCost:20, unlockAt:0, description:"Earns 10% BPS when tab not in focus(stackable up to 50%"},
-      {name:"Bottle o Enchanting", baseCost:20, unlockAt:0, description:"Every day get a welcome back gift"}, 
-      {name:"Totem of Undying", baseCost:25, unlockAt:0, description:"Refunds your next casino loss"},
-      {name:"Brewing Stand", baseCost:40, unlockAt:0, description:"Get 1 hour of BPS instantly"},
+      {name:"Luck Potion", type:"stack", max:5, costGrowth:1.5, baseCost:20, unlockAt:0, description:"Earns 10% BPS when tab not in focus(stackable up to 50%"},
+      {name:"Bottle o Enchanting", type:"once", baseCost:20, unlockAt:0, description:"Every day get a welcome back gift"}, 
+      {name:"Totem of Undying", type:"charge", max:3, baseCost:25, unlockAt:0, description:"Refunds your next casino loss"},
+      {name:"Brewing Stand", type:"instant", seconds:3600, costGrowth:1.5, resetMs:3600000, baseCost:40, unlockAt:0, description:"Get 1 hour of BPS instantly"},
   ]},
-]
+];
+
 var selectedProfession = 0;
 var selectedTrade = 0;
 
+//had to look up how to do this, 
+// please let this work!!!!
+function newTradeState(){ return {
+  level:0, buys:0, lastBuy:0, endsAt:0, readyAt:0}; }
+var tradeState = {};
+vae allTrades = [];
+professions.forEach(function(p){
+  p.trades.forEach(function(t){
+    tradeState[t.id] = newTradeState(); allTrades.push(t); });
+  });
+
+function lvl(id) {
+  return tradeState[id].level; 
+}
+function hasTrade(id) {
+  return tradeState[id].level >0;
+}
+
+ 
 function buildTradeList() {
   var list = document.getElementById("tradeList");
   list.innerHTML = "";

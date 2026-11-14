@@ -824,6 +824,9 @@ function update(){
     commandBTN.hidden = commandBlocks < 1;
     refreshCraft();
     refreshTrade();
+    if (emeralds > 50){
+      emeralds = 50;
+    }
 }
 
 function chungieBuy(){

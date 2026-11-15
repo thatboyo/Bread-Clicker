@@ -827,6 +827,10 @@ function update(){
     if (emeralds > 50){
       emeralds = 50;
     }
+    if (emeraldsPerMinute  > 1.5 ){
+      emeraldsPerMinute = 1.5;
+    }
+
 }
 
 function chungieBuy(){

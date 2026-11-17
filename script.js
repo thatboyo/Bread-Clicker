@@ -41,8 +41,8 @@ var emeraldsPerMinute = 0;
 var xp = 0;
 var villagerLevel = 1;
 var emeralds = 0;
-var version = "3.0"
-document.getElementById("ver").textContent = "Welcome to Version: " + version;
+var version = "3.01"
+document.getElementById("ver").textContent = "Version: " + version;
 
 var emeraldRate =  0.2;
 var emeraldsSpent = 0;
@@ -59,6 +59,8 @@ var haybaleOwned = false;
 var isOnCooldown = false;
 var waterEndsAt = 0;
 var waterReadyAt = 0;
+var KnowledgeEndsAt = 0;
+var KnowledgeReadyAt = 0;
 
 var lastTick = Date.now();
 var tradeMsg = "";
@@ -132,6 +134,8 @@ var villagersOwned = "";
 var commandBlocksOwned = "";
 var magicalBreadMachineOwned = "";
 var amazonsOwned = "";
+var percentBoostClick = 1;
+var effeciencyOwned = 0;
 
 function commandOpen(){
   alert("command block upgrades are coming in version 3.5, \n current version: " + version );
@@ -202,7 +206,7 @@ function buildTradeList(){
     tradeRows[ti] = {row:row, cost:cost}
   });
 
-} //yeah i AI-ed this, i was too lazy to figure this out,
+} //yeah i AI-ed this function, i was too lazy to figure this out,
 function refreshTrade() {
   emeraldsPerMinute = villagers * emeraldRate;
   if (tradeOverlayEl.hidden || !tradeRows.length) return;
@@ -226,6 +230,7 @@ function refreshTrade() {
     " emeralds | Emeralds: " + Math.floor(emeralds) + " (+" + emeraldsPerMinute.toFixed(1) + "/min)");
 }
  
+
 function buyTrade(){
   var t = professions[selectedProfession].trades[selectedTrade];
   if (t.buy) t.buy(); else alert("Coming in version 3.25!");
@@ -314,6 +319,43 @@ function bonemeal(){
     alert("You can't afford that silly!");
   }
 }
+function effeciency(){
+    if (emeralds >= professions[1].trades[1].baseCost) {
+      emeralds -= professions[1].trades[1].baseCost;
+      emeraldsSpent += professions[1].trades[1].baseCost;
+      effeciencyOwned ++;
+      percentBoostClick = effeciencyOwned * (CPS / 100);
+      update();
+  } else {
+    alert("You can't afford that silly!");
+  }
+} /*
+function effeciency(){
+    if (emeralds >= professions[1].trades[1].baseCost) {
+      emeralds -= professions[1].trades[1].baseCost;
+      emeraldsSpent += professions[1].trades[1].baseCost;
+      effeciencyOwned ++;
+      percentBoostClick = effeciencyOwned * (CPS / 100);
+      update();
+  } else {
+    alert("You can't afford that silly!");
+  }
+} */
+function InfiniteKnowledge(){
+  var now = Date.now();
+  if (now < KnowledgeReadyAt) {
+    alert("water bucket is on cooldown! Check back later")
+  }
+  else if (emeralds >= professions[1].trades[3].baseCost && !isOnCooldown) {
+    emeralds -= professions[1].trades[3].baseCost;
+    emeraldsSpent += professions[1].trades[3].baseCost;
+    KnowledgeEndsAt = now + professions[1].trades[3].duration * 1000;
+    KnowledgeReadyAt = waterEndsAt + professions[1].trades[3].cooldown * 1000;
+    update();
+  } else {
+    alert("You can't afford this silly!")
+  }
+}
 
 
 
@@ -335,7 +377,7 @@ function lvl(id) {
   return tradeState[id].level; 
 }
 function hasTrade(id) {
-  return tradeState[id].level >0;
+  return tradeState[id].level > 0;
 }
 
 var buildings = [
@@ -350,14 +392,6 @@ var buildings = [
   {name: "Amazon", count:"amazons", base:"amazon"}
 ]
 
- 
-/*  function buildTradeList() {
-  var list = document.getElementById("tradeList");
-  list.innerHTML = "";
-  var row = document.createElement("button");
-  row.type = "button";
-  row.className = "trade-row"
-} */
 
 
 var tradeCloseBTN = document.getElementById("tradeClose")
@@ -609,7 +643,7 @@ function getState(){
     upgrades: upgradeList.map(function(u){return u.owned;}), tableLevel,
     emeraldsSpent, farmerBoostOwned, haybaleOwned, waterEndsAt, waterReadyAt
   };
-} //jgugug
+} 
 function loadState(s){
   if (!s || typeof s.bread !== "number" || !isFinite(s.bread) || s.bread < 0) return false;
   for (const key of countKeys) {
@@ -695,7 +729,7 @@ function recalcCPS(){
        + craftingTables * 250 * upgradeMultiplier(up.craftingTable)
        + villagers * 1000 * upgradeMultiplier(up.villager)
        + commandBlocks * 64000 * upgradeMultiplier(up.commandBlock)
-       + magicalBreadMachine * 120000 * upgradeMultiplier(up.breadMachine)
+       + magicalBreadMachine * 1200000 * upgradeMultiplier(up.breadMachine)
        + amazons * 99999999;
   var boost = 1 + 0.01 * farmerBoostOwned;
   if (haybaleOwned) boost += Math.min(0.20, 0.05 * Math.floor(villagers / 10))
@@ -748,7 +782,7 @@ document.getElementById("infoBtn").onclick = function() {
 
 
 function clicked() {
-   bread++;
+   bread += percentBoostClick
   update();
 }
 
@@ -990,8 +1024,9 @@ function dice(){
     } else {
       alert("Die Rolled a " + diceResult + ", You Lose: " + bet + " bread :(");
       bread -= bet;
-    }
-  } 
+    }//
+  } //hdgf
+  //didgddyd
 }
 function coinFlip(){
   var coinNum = prompt("Heads(1) or Tails(0)?")

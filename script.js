@@ -44,7 +44,7 @@ var emeralds = 0;
 var version = "3.01"
 document.getElementById("ver").textContent = "Version: " + version;
 
-var emeraldRate =  0.2;
+var emeraldRate =  0.1;
 var emeraldsSpent = 0;
 var purchaseCount = 0;
 var lastGift = 0;

@@ -41,7 +41,7 @@ var emeraldsPerMinute = 0;
 var xp = 0;
 var villagerLevel = 1;
 var emeralds = 0;
-var version = "3.01"
+var version = "3.10"
 document.getElementById("ver").textContent = "Version: " + version;
 
 var emeraldRate =  0.1;
@@ -66,6 +66,13 @@ var lastTick = Date.now();
 var tradeMsg = "";
 var tradeMsgUntil = 0;
 var day_ms = 24 * 60 * 60 * 1000;
+var lecturnOwned = 0;
+var fortuneOwned = false;
+var scaffoldOwned = false;
+var ironGolemOwned = false;
+var stoneCutterOwned = 0;
+var luckOwned = 0;
+var bottleOwned = false;
 
 
 
@@ -249,13 +256,13 @@ var professions = [
     {name:"Farmer Boost", type:"stack", max:15, costGrowth:1.25,  baseCost:2, unlockAt:0, description:"+1% BPS boost(stackable up to 15%)", buy: farmerBoost, state: function() {return farmerBoostOwned + "/" +   professions[0].trades[0].max;}},
       {name:"Hay Bale",type:"once", max:1, baseCost:5, unlockAt:0, description:"+5% total BPS per 10 villagers bought(up to 20%)", buy: haybale, state: function() {return haybaleOwned ? "Owned" : "";}},
       {name:"Water Bucket",type:"timed", duration:60, cooldown:300,multi:2, costGrowth:1.25, baseCost:10, unlockAt:0, description:"2x BPS for 60 Seconds", buy: waterBucket, state: function(){var now = Date.now();
-        if(now = waterEndsAt) return "Active " + Math.ceil((waterEndsAt - now) / 1000) + "s";
+        if(now < waterEndsAt) return "Active " + Math.ceil((waterEndsAt - now) / 1000) + "s";
         if (now < waterReadyAt) return "Cooldown " + Math.ceil((waterReadyAt - now) / 1000) + "s"; 
       }},
       {name:"Bone Meal", type:"instant", costGrowth:1.25, baseCost:25, unlockAt:0, description:"Get 30 minutes of your BPS instantly", buy: bonemeal},
   ]}, 
   {name:"Librarian", level:1, trades:[
-    {name:"Lecturn", baseCost:10, type:"stack", max:5, costGrowth:1.5, unlockAt:0, description:"Every New Villager is 1% cheaper(stackable up to 5%"},
+    {name:"Lecturn", baseCost:10, type:"stack", max:5, costGrowth:1.5, unlockAt:0, description:"Every New Villager is 1% cheaper(stackable up to 5%", },
       {name:"Efficiency", baseCost:15, type:"stack", max:10, costGrowth:1.3, unlockAt:0, description:"1% of your BPS added to each click(stackable up to 10%"},
       {name:"Fortune", type:"once", baseCost:20, unlockAt:0, description:"Every 10 buildings of one kind gets 1 for free"},
       {name:"Infinite Knowledge", type:"timed", duration:90, cooldown:600, mult:5, baseCost:25, unlockAt:0, description:"x5 BPS for 1.5 Minutes"},
@@ -319,46 +326,85 @@ function bonemeal(){
     alert("You can't afford that silly!");
   }
 }
-function effeciency(){
-    if (emeralds >= professions[1].trades[1].baseCost) {
-      emeralds -= professions[1].trades[1].baseCost;
-      emeraldsSpent += professions[1].trades[1].baseCost;
-      effeciencyOwned ++;
-      percentBoostClick = effeciencyOwned * (CPS / 100);
-      update();
-  } else {
-    alert("You can't afford that silly!");
-  }
-} /*
-function effeciency(){
-    if (emeralds >= professions[1].trades[1].baseCost) {
-      emeralds -= professions[1].trades[1].baseCost;
-      emeraldsSpent += professions[1].trades[1].baseCost;
-      effeciencyOwned ++;
-      percentBoostClick = effeciencyOwned * (CPS / 100);
-      update();
-  } else {
-    alert("You can't afford that silly!");
-  }
-} */
-function InfiniteKnowledge(){
-  var now = Date.now();
-  if (now < KnowledgeReadyAt) {
-    alert("water bucket is on cooldown! Check back later")
-  }
-  else if (emeralds >= professions[1].trades[3].baseCost && !isOnCooldown) {
-    emeralds -= professions[1].trades[3].baseCost;
-    emeraldsSpent += professions[1].trades[3].baseCost;
-    KnowledgeEndsAt = now + professions[1].trades[3].duration * 1000;
-    KnowledgeReadyAt = waterEndsAt + professions[1].trades[3].cooldown * 1000;
+//finally stopped procrastinating this lol
+function lectern() {
+  if (lecturnOwned >= professions[1].trades[0].max){
+    alert("Lectern is maxed out silly!");
+  } else if (emeralds >= professions[1].trades[0].baseCost){
+    emeralds -= professions[1].trades[0].baseCost;
+    emeraldsSpent += professions[1].trades[0];
+    lecturnOwned++;
     update();
   } else {
-    alert("You can't afford this silly!")
+    alert("You can't afford that silly!");
+  }
+}
+function efficiency(){
+  if (effeciencyOwned >= professions[1].trades[1].baseCost.max){
+    alert("Efficiency is maxed out!");
+  } else if (emeralds >= professions[1].trades[1].baseCost){
+    emeralds -= professions[1].trades[1].baseCost;
+    emeraldsSpent += professions[1].trades[1].baseCost;
+  }
+}
+function fortune(){
+  if (fortuneOwned) {
+    alert("You already own this silly!");
+  } else if (emeralds >= professions[1].trades[2].baseCost) {
+    emeralds -= professions[1].owned[2].baseCost;
+    emeraldsSpent += professions[1].owned[2].baseCost;
+    fortuneOwned = true;
+    update();
+  } else {
+    alert("You can't affordd that silly!");
+  }
+}
+function infiniteKnowledge(){
+  var now = Date.now();
+  if (now < KnowledgeEndsAt){
+    alert("Infinite Knowledge is still active!");
+  } else if (now < KnowledgeReadyAt) {
+    alert("Infinite Knowledge is on coolown! check back later");
+  } else if (emeralds >= professions[1].trades[3].baseCost) {
+    emeralds -= professions[1].owned[3].baseCost;
+    emeraldsSpent += professions[1].owned[3].baseCost;
+    KnowledgeEndsAt = now + professions[1].trades[3].duration * 1000;
+    KnowledgeReadyAt - KnowledgeEndsAt + professions[1].trades[3].cooldown * 1000;
   }
 }
 
 
 
+professions[1].trades[0].buy = lectern;
+professions[1].trades[0].state = function () {
+  return lecturnOwned + "/" + professions[1].trades[0].max;
+ };
+
+professions[1].trades[1].buy = efficiency;
+professions[1].trades[1].state = function () {
+  return effeciencyOwned + "/" + professions[1].trades[1].max; 
+};
+
+professions[1].trades[2].buy = fortune;
+professions[1].trades[2].state = function () {
+  return fortuneOwned ? "Owned " : ""; 
+};
+
+professions[1].trades[3].buy = infiniteKnowledge;
+professions[1].trades[3].state = function () {
+  var now = Date.now();
+  if (now < KnowledgeEndsAt) return "Active " + Math.ceil((KnowledgeEndsAt - now) / 1000) + "s";
+  if (now < KnowledgeReadyAt) return "Cooldown " + Math.ceil((KnowledgeReadyAt) / 1000) + "s";
+  return "";
+};
+
+function KnowledgeMult(){
+  return Date.now() < KnowledgeEndsAt ?
+  professions[1].trades[3].mult : 1;
+}
+function eff(n){
+  return fortuneOwned ? n + Math.floor(n / 10) : n;
+}
 var selectedProfession = 0;
 var selectedTrade = 0;
 
